@@ -48,6 +48,8 @@ A_BtnPin7    = Button(TLP1, 1007)
 A_BtnPin8    = Button(TLP1, 1008)
 A_BtnPin9    = Button(TLP1, 1009)
 A_BtnPinD    = Button(TLP1, 1010, repeatTime = 0.1)
+A_LblPIN     = Label(TLP1, 1011)
+
 ## Main
 A_BtnVideo   = Button(TLP1, 11)
 A_BtnAudio   = Button(TLP1, 12)
@@ -114,16 +116,27 @@ def Initialize():
     global PIN_A
     global PIN_B
     global PIN_C
+    global PIN_M_Secret
+    global PIN_A_Secret
+    global PIN_B_Secret
+    global PIN_C_Secret
+    global PIN_A_GUI
     #--
     PIN_M = []
     PIN_A = []
     PIN_B = []
     PIN_C = []
+    PIN_A_GUI = []
+    
+    PIN_M_Secret = '1414'
+    PIN_A_Secret = '1414'
+    PIN_B_Secret = '1414'
+    PIN_C_Secret = '1414'
     #--
-    PIN_M_Secret = 1414
-    PIN_A_Secret = 1414
-    PIN_B_Secret = 1414
-    PIN_C_Secret = 1414    
+    A_LblPIN.SetText('')
+    #B_LblPIN.SetText('')
+    #C_LblPIN.SetText('')
+    #D_LblPIN.SetText('')
     
     #Index GUI
     TLP1.ShowPage('Index')
@@ -153,14 +166,42 @@ def IndexEvents(button, state):
     pass
 
 ## PIN -------------------------------------------------------------------------
-def PINValidation(Number):
-    print('Longitud: ' + str(len(PIN_A)))
-    if len(PIN_A) >= 0 and len(PIN_A) <= 3:
-        PIN_A.append(Number)
-        print(PIN_A)
-    else:
-        print(PIN_A)
-        print('Only four position')
+def PINValidation(Number, Delete): #This validate the PIN Security Panel
+    global PIN_A, PIN_A_GUI, OK
+    OK  = ''
+    #--
+    if Number != None:                          #If user send a number
+        if len(PIN_A) >= 0 and len(PIN_A) <= 3: #Ej= '1234'
+            #--
+            PIN_A.append(Number)        #Append the last number to internal list
+            PIN_A_GUI.append('*')       #Append a '*' instead a number in Panel
+            Clean  = "".join(PIN_A)     #Convert the list to cleaned string data
+            Clean2 = "".join(PIN_A_GUI) #Convert the list to cleaned string data
+            A_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
+            #--
+            if len(Clean) == 4:           #If user type all numbers in the Panel
+                if Clean == PIN_A_Secret: #If User enter the secret PIN:
+                    TLP1.HideAllPopups()  #Panel actions:
+                    TLP1.ShowPage('Main')
+                    TLP1.ShowPopup('x_Welcome')
+                else:                    #If User enter incorrect PIN:
+                    print('Full List')   #Notify to console
+                    PIN_A = []           #Erase each items in list [0-9]
+                    PIN_A_GUI = []       #Erase each items in list [****]
+                    A_LblPIN.SetText('Incorrect') #Show error msj to Panel
+                    @Wait(1)                      #Wait 1s
+                    def EraseText():              #Erase data from Panel
+                        A_LblPIN.SetText('')
+    #--
+    if Delete == 'Delete':
+        if len(PIN_A) > 0:              #If the list have data
+            PIN_A.pop()                 #Delete the last number of the list
+            PIN_A_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(PIN_A)     #Convert the list to cleaned string data
+            Clean2 = "".join(PIN_A_GUI) #Convert the list to cleaned string data
+            A_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
+        else:
+            print('Empty List')         #Notify to console
     pass
 
 @event(PagePIN, ButtonEventList)
@@ -169,7 +210,7 @@ def PINEvents(button, state):
         if button is A_BtnPin0 and state == 'Pressed':
             A_BtnPin0.SetState(1)
             #--     
-            PINValidation(0)
+            PINValidation('0', None)
             print("Touch A: PIN 0 Pressed")
         else:
             A_BtnPin0.SetState(0)
@@ -177,14 +218,14 @@ def PINEvents(button, state):
         if button is A_BtnPin1 and state == 'Pressed':
             A_BtnPin1.SetState(1)
             #--
-            PINValidation(1)
+            PINValidation('1', None)
             print("Touch A: PIN 1 Pressed")
         else:
             A_BtnPin1.SetState(0)
         #--
         if button is A_BtnPin2 and state == 'Pressed':
             #--     
-            PINValidation(2)
+            PINValidation('2', None)
             print("Touch A: PIN 2 Pressed")
         else:
             A_BtnPin2.SetState(0)
@@ -192,7 +233,7 @@ def PINEvents(button, state):
         if button is A_BtnPin3 and state == 'Pressed':
             A_BtnPin3.SetState(1)
             #--     
-            PINValidation(3)
+            PINValidation('3', None)
             print("Touch A: PIN 3 Pressed")
         else:
             A_BtnPin3.SetState(0)
@@ -200,7 +241,7 @@ def PINEvents(button, state):
         if button is A_BtnPin4 and state == 'Pressed':
             A_BtnPin4.SetState(1)
             #--     
-            PINValidation(4)
+            PINValidation('4', None)
             print("Touch A: PIN 4 Pressed")
         else:
             A_BtnPin4.SetState(0)
@@ -208,7 +249,7 @@ def PINEvents(button, state):
         if button is A_BtnPin5 and state == 'Pressed':
             A_BtnPin5.SetState(1)
             #--     
-            PINValidation(5)
+            PINValidation('5', None)
             print("Touch A: PIN 5 Pressed")
         else:
             A_BtnPin5.SetState(0)
@@ -216,7 +257,7 @@ def PINEvents(button, state):
         if button is A_BtnPin6 and state == 'Pressed':
             A_BtnPin6.SetState(1)
             #--     
-            PINValidation(6)
+            PINValidation('6', None)
             print("Touch A: PIN 6 Pressed")
         else:
             A_BtnPin6.SetState(0)
@@ -224,7 +265,7 @@ def PINEvents(button, state):
         if button is A_BtnPin7 and state == 'Pressed':
             A_BtnPin7.SetState(1)
             #--     
-            PINValidation(7)
+            PINValidation('7', None)
             print("Touch A: PIN 7 Pressed")
         else:
             A_BtnPin7.SetState(0)
@@ -232,7 +273,7 @@ def PINEvents(button, state):
         if button is A_BtnPin8 and state == 'Pressed':
             A_BtnPin8.SetState(1)
             #--     
-            PINValidation(8)
+            PINValidation('8', None)
             print("Touch A: PIN 8 Pressed")
         else:
             A_BtnPin8.SetState(0)
@@ -240,21 +281,16 @@ def PINEvents(button, state):
         if button is A_BtnPin9 and state == 'Pressed':
             A_BtnPin9.SetState(1)
             #--     
-            PINValidation(9)
+            PINValidation('9', None)
             print("Touch A: PIN 9 Pressed")
         else:
             A_BtnPin9.SetState(0)
         #--
         if button is A_BtnPinD and state == 'Pressed':
             A_BtnPinD.SetState(1)
-            PIN_A.pop()
-            print(PIN_A)
+            #--
+            PINValidation(None, 'Delete')
             print("Touch A: PIN Delete Pressed")
-        elif button is A_BtnPinD and state == 'Repeated':
-            A_BtnPinD.SetState(1)
-            PIN_A.pop()
-            print(PIN_A)
-            print("Touch A: PIN Delete Released")
         else:
             A_BtnPinD.SetState(0)
     pass
