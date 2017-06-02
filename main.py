@@ -377,7 +377,7 @@ def Initialize():
     #--
     TLPM.ShowPage('Index')
     TLPM.HideAllPopups()
-    #GroupMainM.SetCurrent(None)
+    GroupMainM.SetCurrent(None)
 
     TLP1.ShowPage('Index')
     TLP1.HideAllPopups()
@@ -663,18 +663,38 @@ def PINEvents(button, state):
 @event(PageRoom, ButtonEventList)
 def RoomMasterEvents(button, state):
     if button is M_Room1 and state == 'Pressed':
-        GroupRoom.SetCurrent(M_Room1)
+        #--
+        TLP1.ShowPage('Index')
+        TLP2.ShowPage('Index')
+        TLP3.ShowPage('Index')
+        #--
+        GroupRoom.SetCurrent(M_Room1)       
         print('Touch Master: %s' % ('Room Mode A|B|C /All Close'))
     #-- 
     elif button is M_Room2 and state == 'Pressed':
+        #--
+        TLP1.ShowPage('Inactive')
+        TLP2.ShowPage('Inactive')
+        TLP3.ShowPage('Index')
+        #--
         GroupRoom.SetCurrent(M_Room2)
         print('Touch Master: %s' % ('Room Mode A-B|C /Separed'))
     #--    
     elif button is M_Room3 and state == 'Pressed':
+        #--
+        TLP1.ShowPage('Index')
+        TLP2.ShowPage('Inactive')
+        TLP3.ShowPage('Inactive')
+        #--
         GroupRoom.SetCurrent(M_Room3)
         print('Touch Master: %s' % ('Room Mode A|B-C /Separed'))   
     #--  
     elif button is M_Room4 and state == 'Pressed':
+        #--
+        TLP1.ShowPage('Inactive')
+        TLP2.ShowPage('Inactive')
+        TLP3.ShowPage('Inactive')
+        #--
         GroupRoom.SetCurrent(M_Room4)
         print('Touch Master: %s' % ('Room Mode A-B-C /All Open'))
     pass
