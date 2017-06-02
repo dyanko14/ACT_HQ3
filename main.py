@@ -149,39 +149,109 @@ B_BtnLANVadd = Button(TLP2, 68)
 B_BtnPwrAll  = Button(TLP2, 101, holdTime = 3)
 B_LblPwrAll  = Label(TLP2, 102)
 '''PANEL - ROOM C ...........................................................'''
+## Index
+C_BtnIndex   = Button(TLP3, 1)
+C_LblIndex   = Label(TLP3, 2)
+## PIN
+C_BtnPin0    = Button(TLP3, 1000)
+C_BtnPin1    = Button(TLP3, 1001)
+C_BtnPin2    = Button(TLP3, 1002)
+C_BtnPin3    = Button(TLP3, 1003)
+C_BtnPin4    = Button(TLP3, 1004)
+C_BtnPin5    = Button(TLP3, 1005)
+C_BtnPin6    = Button(TLP3, 1006)
+C_BtnPin7    = Button(TLP3, 1007)
+C_BtnPin8    = Button(TLP3, 1008)
+C_BtnPin9    = Button(TLP3, 1009)
+C_BtnPinD    = Button(TLP3, 1010, repeatTime = 0.1)
+C_BtnPinX    = Button(TLP3, 1011)
+C_LblPIN     = Label(TLP3, 1012)
+
+## Main
+C_BtnVideo   = Button(TLP3, 11)
+C_BtnAudio   = Button(TLP3, 12)
+C_BtnBlinds  = Button(TLP3, 13)
+C_BtnLights  = Button(TLP3, 14)
+C_BtnStatus  = Button(TLP3, 15)
+C_BtnPwrOff  = Button(TLP3, 16) 
+C_LblMaster  = Label(TLP3, 300)
+C_LblRoom    = Label(TLP3, 301)
+## Video
+C_BtnVHDMI   = Button(TLP3, 21)
+C_BtnVShare  = Button(TLP3, 22)
+C_BtnVPwrOn  = Button(TLP3, 23)
+C_BtnVPwrOff = Button(TLP3, 24)
+C_BtnUp      = Button(TLP3, 25)
+C_BtnStop    = Button(TLP3, 26)
+C_BtnDown    = Button(TLP3, 27)
+## Audio
+C_BtnVolLess = Button(TLP3, 31, repeatTime = 0.1)
+C_BtnVolPlus = Button(TLP3, 32, repeatTime = 0.1)
+C_BtnMute    = Button(TLP3, 33)
+C_LvlRoom    = Level(TLP3, 34)
+## Persianas
+C_BtnBUp     = Button(TLP3, 41)
+C_BtnBStop   = Button(TLP3, 42)
+C_BtnBDown   = Button(TLP3, 43)
+## Luces
+C_BtnLightOn = Button(TLP3, 51)
+C_BtnLightOf = Button(TLP3, 52)
+## Status
+C_Btn232LCD1 = Button(TLP3, 61)
+C_Btn232LCD2 = Button(TLP3, 62)
+C_Btn232DXP  = Button(TLP3, 63)
+C_Btn232Bimp = Button(TLP3, 64)
+C_Btn232PTZ  = Button(TLP3, 65)
+C_Btn232Cisc = Button(TLP3, 66)
+C_BtnLANSMP  = Button(TLP3, 67)
+C_BtnLANVadd = Button(TLP3, 68)
+## PowerOff
+C_BtnPwrAll  = Button(TLP3, 101, holdTime = 3)
+C_LblPwrAll  = Label(TLP3, 102)
 '''PANEL - Group Buttons ..................................................--'''
 #--
-PageIndex   = [A_BtnIndex, B_BtnIndex]
+PageIndex   = [A_BtnIndex, B_BtnIndex, C_BtnIndex]
 #--
 PagePIN     = [A_BtnPin0, A_BtnPin1, A_BtnPin2, A_BtnPin3, A_BtnPin4, A_BtnPin5,
                A_BtnPin6, A_BtnPin7, A_BtnPin8, A_BtnPin9, A_BtnPinD, A_BtnPinX,             
                B_BtnPin0, B_BtnPin1, B_BtnPin2, B_BtnPin3, B_BtnPin4, B_BtnPin5,
-               B_BtnPin6, B_BtnPin7, B_BtnPin8, B_BtnPin9, B_BtnPinD, B_BtnPinX]
+               B_BtnPin6, B_BtnPin7, B_BtnPin8, B_BtnPin9, B_BtnPinD, B_BtnPinX,
+               C_BtnPin0, C_BtnPin1, C_BtnPin2, C_BtnPin3, C_BtnPin4, C_BtnPin5,
+               C_BtnPin6, C_BtnPin7, C_BtnPin8, C_BtnPin9, C_BtnPinD, C_BtnPinX]
 #--
 PageMain    = [A_BtnVideo, A_BtnAudio, A_BtnBlinds, A_BtnLights, A_BtnStatus, A_BtnPwrOff,
-               B_BtnVideo, B_BtnAudio, B_BtnBlinds, B_BtnLights, B_BtnStatus, B_BtnPwrOff]
+               B_BtnVideo, B_BtnAudio, B_BtnBlinds, B_BtnLights, B_BtnStatus, B_BtnPwrOff,
+               C_BtnVideo, C_BtnAudio, C_BtnBlinds, C_BtnLights, C_BtnStatus, C_BtnPwrOff]
 GroupMainA  = MESet([A_BtnVideo, A_BtnAudio, A_BtnBlinds, A_BtnLights, A_BtnStatus, A_BtnPwrOff])
 GroupMainB  = MESet([B_BtnVideo, B_BtnAudio, B_BtnBlinds, B_BtnLights, B_BtnStatus, B_BtnPwrOff])
+GroupMainC  = MESet([C_BtnVideo, C_BtnAudio, C_BtnBlinds, C_BtnLights, C_BtnStatus, C_BtnPwrOff])
 #--
 PageVideo   = [A_BtnVHDMI, A_BtnVShare, A_BtnVPwrOn, A_BtnVPwrOff, A_BtnUp, A_BtnStop, A_BtnDown,
-               B_BtnVHDMI, B_BtnVShare, B_BtnVPwrOn, B_BtnVPwrOff, B_BtnUp, B_BtnStop, B_BtnDown]
+               B_BtnVHDMI, B_BtnVShare, B_BtnVPwrOn, B_BtnVPwrOff, B_BtnUp, B_BtnStop, B_BtnDown,
+               C_BtnVHDMI, C_BtnVShare, C_BtnVPwrOn, C_BtnVPwrOff, C_BtnUp, C_BtnStop, C_BtnDown]               
 GroupVideoA = MESet([A_BtnUp, A_BtnStop, A_BtnDown])
 GroupVideoB = MESet([B_BtnUp, B_BtnStop, B_BtnDown])
+GroupVideoC = MESet([C_BtnUp, C_BtnStop, C_BtnDown])
 #--
 PageAudio   = [A_BtnVolLess, A_BtnVolPlus, A_BtnMute,
-               B_BtnVolLess, B_BtnVolPlus, B_BtnMute]
+               B_BtnVolLess, B_BtnVolPlus, B_BtnMute,
+               C_BtnVolLess, C_BtnVolPlus, C_BtnMute]
 #--
 PageBlinds  = [A_BtnBUp, A_BtnBStop, A_BtnBDown,
-               B_BtnBUp, B_BtnBStop, B_BtnBDown]
+               B_BtnBUp, B_BtnBStop, B_BtnBDown,
+               C_BtnBUp, C_BtnBStop, C_BtnBDown]
 GroupBlindsA = MESet([A_BtnBUp, A_BtnBStop, A_BtnBDown])
 GroupBlindsB = MESet([B_BtnBUp, B_BtnBStop, B_BtnBDown])
+GroupBlindsC = MESet([C_BtnBUp, C_BtnBStop, C_BtnBDown])
 #--
 PageLights = [A_BtnLightOn, A_BtnLightOf,
-              B_BtnLightOn, B_BtnLightOf]
+              B_BtnLightOn, B_BtnLightOf,
+              C_BtnLightOn, C_BtnLightOf]
 GroupLightsA = MESet([A_BtnLightOn, A_BtnLightOf])
 GroupLightsB = MESet([B_BtnLightOn, B_BtnLightOf])
+GroupLightsC = MESet([C_BtnLightOn, C_BtnLightOf])
 #--
-PagePowerAll = [A_BtnPwrAll, B_BtnPwrAll]
+PagePowerAll = [A_BtnPwrAll, B_BtnPwrAll, C_BtnPwrAll]
 #--
 #--
 ButtonEventList = ['Pressed', 'Released', 'Held', 'Repeated', 'Tapped']
@@ -195,28 +265,46 @@ def Initialize():
     global PIN_B
     global PIN_B_Secret
     global PIN_B_GUI
+
+    global PIN_C
+    global PIN_C_Secret
+    global PIN_C_GUI
     #--
     PIN_A = []
     PIN_A_GUI = []
-    PIN_A_Secret = '1414'
+    PIN_A_Secret = '1111'
+    
     PIN_B = []
     PIN_B_GUI = []
-    PIN_B_Secret = '0000'
+    PIN_B_Secret = '2222'
+    
+    PIN_C = []
+    PIN_C_GUI = []
+    PIN_C_Secret = '3333'
     #--
     A_LblIndex.SetText('Panel - Sala A')
     A_LblRoom.SetText('Panel A')
     A_LblPIN.SetText('')
+    
     B_LblIndex.SetText('Panel - Sala B')
     B_LblRoom.SetText('Panel B')
     B_LblPIN.SetText('')
+
+    C_LblIndex.SetText('Panel - Sala C')
+    C_LblRoom.SetText('Panel C')
+    C_LblPIN.SetText('')
     #--
     TLP1.ShowPage('Index')
     TLP1.HideAllPopups()
     GroupMainA.SetCurrent(None)
-    #--
+
     TLP2.ShowPage('Index')
     TLP2.HideAllPopups()
-    #GroupMainA.SetCurrent(None)
+    GroupMainB.SetCurrent(None)
+
+    TLP3.ShowPage('Index')
+    TLP3.HideAllPopups()
+    GroupMainC.SetCurrent(None)
     pass
 
 ## Event Definitions -----------------------------------------------------------
@@ -237,6 +325,14 @@ def IndexEvents(button, state):
             PIN_B_GUI = []
             B_LblPIN.SetText('')
             TLP2.ShowPopup('PIN')
+            print("Touch B: Index Pressed")
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnIndex and state == 'Pressed':            
+            PIN_C = []
+            PIN_C_GUI = []
+            C_LblPIN.SetText('')
+            TLP3.ShowPopup('PIN')
             print("Touch B: Index Pressed")
     pass
 
@@ -324,6 +420,48 @@ def PINValidationB(Number, Option): #This validate the PIN Security Panel
         TLP2.HidePopup('PIN')           #Show the Index Page
     pass
 
+## PIN C -----------------------------------------------------------------------
+def PINValidationC(Number, Option): #This validate the PIN Security Panel
+    global PIN_C, PIN_C_GUI
+    #--
+    if Number != None:                          #If user send a number
+        Number = str(Number[3])                 #Extract the number of btn name
+        if len(PIN_C) >= 0 and len(PIN_C) <= 3: #Ej= '1234'
+            #--
+            PIN_C.append(Number)        #Append the last number to internal list
+            PIN_C_GUI.append('*')       #Append a '*' instead a number in Panel
+            Clean  = "".join(PIN_C)     #Convert the list to cleaned string data
+            Clean2 = "".join(PIN_C_GUI) #Convert the list to cleaned string data
+            C_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
+            #--
+            if len(Clean) == 4:           #If user type all numbers in the Panel
+                if Clean == PIN_C_Secret: #If User enter the secret PIN:
+                    TLP3.HideAllPopups()  #Panel actions:
+                    TLP3.ShowPage('Main')
+                    TLP3.ShowPopup('x_Welcome')
+                else:                    #If User enter incorrect PIN:
+                    print('Full List')   #Notify to console
+                    PIN_C = []           #Erase each items in list [0-9]
+                    PIN_C_GUI = []       #Erase each items in list [****]
+                    C_LblPIN.SetText('Incorrect') #Show error msj to Panel
+                    @Wait(1)                      #Wait 1s
+                    def EraseText():              #Erase data from Panel
+                        C_LblPIN.SetText('')
+    #--
+    if Option == 'PINDelete':           #If the user pulse Delete Button
+        if len(PIN_C) > 0:              #If the list have data
+            PIN_C.pop()                 #Delete the last number of the list
+            PIN_C_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(PIN_C)     #Convert the list to cleaned string data
+            Clean2 = "".join(PIN_C_GUI) #Convert the list to cleaned string data
+            C_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
+        else:
+            print('Empty List')         #Notify to console
+    #--
+    if Option == 'PINExit':             #If the user pulse Exit Button
+        TLP3.HidePopup('PIN')           #Show the Index Page
+    pass
+
 ## PIN Page --------------------------------------------------------------------
 @event(PagePIN, ButtonEventList)
 def PINEvents(button, state):
@@ -342,7 +480,7 @@ def PINEvents(button, state):
         else:
             button.SetState(0)
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if state == 'Pressed':
             print('Panel B: ' + button.Name)
             button.SetState(1)
@@ -353,6 +491,20 @@ def PINEvents(button, state):
                 PINValidationB(None, button.Name)  #Recall a validation function
             else:                                  #PIN 0-9 Button
                 PINValidationB(button.Name, None)  #Recall a validation function
+        else:
+            button.SetState(0)
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if state == 'Pressed':
+            print('Panel C: ' + button.Name)
+            button.SetState(1)
+            #--
+            if button.Name == 'PINDelete':         #PIN Delete Button
+                PINValidationC(None, button.Name)  #Recall a validation function
+            elif button.Name == 'PINExit':         #PIN Exit Button
+                PINValidationC(None, button.Name)  #Recall a validation function
+            else:                                  #PIN 0-9 Button
+                PINValidationC(button.Name, None)  #Recall a validation function
         else:
             button.SetState(0)
     pass
@@ -398,7 +550,7 @@ def PageMain(button, state):
             GroupMainA.SetCurrent(A_BtnPwrOff)
             print('Touch A: %s' % ('PowerOff'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
     #--
         if button is B_BtnVideo and state == 'Pressed':
             B_LblMaster.SetText('Control de Video')
@@ -435,6 +587,44 @@ def PageMain(button, state):
             TLP2.ShowPopup('x_PowerOff')
             GroupMainB.SetCurrent(B_BtnPwrOff)
             print('Touch B: %s' % ('PowerOff'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+    #--
+        if button is C_BtnVideo and state == 'Pressed':
+            C_LblMaster.SetText('Control de Video')
+            TLP3.ShowPopup('Video')
+            GroupMainC.SetCurrent(C_BtnVideo)
+            print('Touch C: %s' % ('Video'))
+        #--
+        elif button is C_BtnAudio and state == 'Pressed':
+            C_LblMaster.SetText('Control de Audio')
+            TLP3.ShowPopup('Audio')
+            GroupMainC.SetCurrent(C_BtnAudio)
+            print('Touch C: %s' % ('Audio'))
+        #--
+        elif button is C_BtnBlinds and state == 'Pressed':
+            C_LblMaster.SetText('Control de Persianas')
+            TLP3.ShowPopup('Persianas')
+            GroupMainC.SetCurrent(C_BtnBlinds)
+            print('Touch C: %s' % ('Persianas'))
+        #--
+        elif button is C_BtnLights and state == 'Pressed':
+            C_LblMaster.SetText('Control de Luces')
+            TLP3.ShowPopup('Luces')
+            GroupMainC.SetCurrent(C_BtnLights)
+            print('Touch C: %s' % ('Luces'))
+        #--
+        elif button is C_BtnStatus and state == 'Pressed':
+            C_LblMaster.SetText('Información de Dispositivos')
+            TLP3.ShowPopup('Status')
+            GroupMainC.SetCurrent(C_BtnStatus)
+            print('Touch C: %s' % ('Status'))
+        #--
+        elif button is C_BtnPwrOff and state == 'Pressed':
+            C_LblMaster.SetText('Apagado de Sala')
+            TLP3.ShowPopup('x_PowerOff')
+            GroupMainC.SetCurrent(C_BtnPwrOff)
+            print('Touch C: %s' % ('PowerOff'))
     pass
 ## Video -----------------------------------------------------------------------
 @event(PageVideo, ButtonEventList)
@@ -459,7 +649,7 @@ def PageVideo(button, state):
             GroupVideoA.SetCurrent(A_BtnDown)
             print('Touch A: %s' % ('Screen Down'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnVHDMI and state == 'Pressed':
             print('Touch B: %s' % ('HDMI'))
         elif button is B_BtnVShare and state == 'Pressed':
@@ -477,6 +667,25 @@ def PageVideo(button, state):
         elif button is B_BtnDown and state == 'Pressed':
             GroupVideoB.SetCurrent(B_BtnDown)
             print('Touch B: %s' % ('Screen Down'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnVHDMI and state == 'Pressed':
+            print('Touch C: %s' % ('HDMI'))
+        elif button is C_BtnVShare and state == 'Pressed':
+            print('Touch C: %s' % ('ShareLink'))
+        elif button is C_BtnVPwrOn and state == 'Pressed':
+            print('Touch C: %s' % ('PowerOn'))
+        elif button is C_BtnVPwrOff and state == 'Pressed':
+            print('Touch C: %s' % ('PowerOff'))
+        elif button is C_BtnUp and state == 'Pressed':
+            GroupVideoC.SetCurrent(C_BtnUp)
+            print('Touch C: %s' % ('Screen Up'))
+        elif button is C_BtnStop and state == 'Pressed':
+            GroupVideoC.SetCurrent(C_BtnStop)
+            print('Touch C: %s' % ('Screen Stop'))
+        elif button is C_BtnDown and state == 'Pressed':
+            GroupVideoC.SetCurrent(C_BtnDown)
+            print('Touch C: %s' % ('Screen Down'))
     pass
 ## Audio -----------------------------------------------------------------------
 @event(PageAudio, ButtonEventList)
@@ -504,7 +713,7 @@ def PageAudio(button, state):
         if button is A_BtnMute and state == 'Pressed':
             print('Touch A: %s' % ('Audio Mute'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnVolLess and state == 'Pressed':
             B_BtnVolLess.SetState(1)
             print('Touch B: %s' % ('Audio -'))
@@ -525,6 +734,28 @@ def PageAudio(button, state):
         #--
         if button is B_BtnMute and state == 'Pressed':
             print('Touch B: %s' % ('Audio Mute'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnVolLess and state == 'Pressed':
+            C_BtnVolLess.SetState(1)
+            print('Touch C: %s' % ('Audio -'))
+        elif button is C_BtnVolLess and state == 'Repeated':
+            C_BtnVolLess.SetState(1)
+            print('Touch C: %s' % ('Audio -'))        
+        else:
+            C_BtnVolLess.SetState(0)
+        #--
+        if button is C_BtnVolPlus and state == 'Pressed':
+            C_BtnVolPlus.SetState(1)
+            print('Touch C: %s' % ('Audio +'))
+        if button is C_BtnVolPlus and state == 'Repeated':
+            C_BtnVolPlus.SetState(1)
+            print('Touch C: %s' % ('Audio +'))
+        else:
+            C_BtnVolPlus.SetState(0)
+        #--
+        if button is C_BtnMute and state == 'Pressed':
+            print('Touch C: %s' % ('Audio Mute'))
     pass
 ## Persianas -------------------------------------------------------------------
 @event(PageBlinds, ButtonEventList)
@@ -541,7 +772,7 @@ def PageBlinds(button, state):
             GroupBlindsA.SetCurrent(A_BtnBDown)
             print('Touch A: %s' % ('Persianas Down'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnBUp and state == 'Pressed':
             GroupBlindsB.SetCurrent(B_BtnBUp)
             print('Touch B: %s' % ('Persianas Up'))
@@ -551,6 +782,17 @@ def PageBlinds(button, state):
         elif button is B_BtnBDown and state == 'Pressed':
             GroupBlindsB.SetCurrent(B_BtnBDown)
             print('Touch B: %s' % ('Persianas Down'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnBUp and state == 'Pressed':
+            GroupBlindsC.SetCurrent(C_BtnBUp)
+            print('Touch C: %s' % ('Persianas Up'))
+        elif button is C_BtnBStop and state == 'Pressed':
+            GroupBlindsC.SetCurrent(C_BtnBStop)
+            print('Touch C: %s' % ('Persianas Stop'))
+        elif button is C_BtnBDown and state == 'Pressed':
+            GroupBlindsC.SetCurrent(C_BtnBDown)
+            print('Touch C: %s' % ('Persianas Down'))
     pass
 ## Lights ----------------------------------------------------------------------
 @event(PageLights, ButtonEventList)
@@ -564,18 +806,26 @@ def PageLights(button, state):
             GroupLightsA.SetCurrent(A_BtnLightOf)
             print('Touch A: %s' % ('Lights Off'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnLightOn and state == 'Pressed':
             GroupLightsB.SetCurrent(B_BtnLightOn)
             print('Touch B: %s' % ('Lights On'))
         elif button is B_BtnLightOf and state == 'Pressed':
             GroupLightsB.SetCurrent(B_BtnLightOf)
             print('Touch B: %s' % ('Lights Off'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnLightOn and state == 'Pressed':
+            GroupLightsC.SetCurrent(C_BtnLightOn)
+            print('Touch C: %s' % ('Lights On'))
+        elif button is C_BtnLightOf and state == 'Pressed':
+            GroupLightsC.SetCurrent(C_BtnLightOf)
+            print('Touch C: %s' % ('Lights Off'))
     pass
 ## Status ----------------------------------------------------------------------
 ## PowerOff --------------------------------------------------------------------
 @event(PagePowerAll, ButtonEventList)
-def PageLights(button, state):
+def PagePowerAll(button, state):
     #--
     if button.Host.DeviceAlias == 'TouchPanelA':
         if button is A_BtnPwrAll and state == 'Pressed':
@@ -585,13 +835,21 @@ def PageLights(button, state):
             TLP1.ShowPage('Index')
             print('Touch A: %s' % ('PowerAll Ok'))
     #--
-    if button.Host.DeviceAlias == 'TouchPanelB':
+    elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnPwrAll and state == 'Pressed':
             print('Touch B: %s' % ('PowerAll Pressed'))
         elif button is B_BtnPwrAll and state == 'Held':
             TLP2.HideAllPopups()
             TLP2.ShowPage('Index')
             print('Touch B: %s' % ('PowerAll Ok'))
+    #--
+    elif button.Host.DeviceAlias == 'TouchPanelC':
+        if button is C_BtnPwrAll and state == 'Pressed':
+            print('Touch C: %s' % ('PowerAll Pressed'))
+        elif button is C_BtnPwrAll and state == 'Held':
+            TLP3.HideAllPopups()
+            TLP3.ShowPage('Index')
+            print('Touch C: %s' % ('PowerAll Ok'))
     pass
 ## End Events Definitions-------------------------------------------------------
 Initialize()
