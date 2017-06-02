@@ -17,17 +17,13 @@ print(Version())
 ## End User Import -------------------------------------------------------------
 ##
 ## Begin Device/Processor Definition -------------------------------------------
-
 IPCP = ProcessorDevice('IPCP350')
-
 ## End Device/Processor Definition ---------------------------------------------
 ##
 ## Begin Device/User Interface Definition --------------------------------------
-#TLPM = UIDevice('TouchPanelM')
 TLP1 = UIDevice('TouchPanelA')
-#TLP2 = UIDevice('TouchPanelB')
-#TLP3 = UIDevice('TouchPanelC')
-
+TLP2 = UIDevice('TouchPanelB')
+TLP3 = UIDevice('TouchPanelC')
 ## End Device/User Interface Definition ----------------------------------------
 ##
 ## Begin Communication Interface Definition ------------------------------------
@@ -35,7 +31,7 @@ TLP1 = UIDevice('TouchPanelA')
 '''PANEL - ROOM A ...........................................................'''
 ## Index
 A_BtnIndex   = Button(TLP1, 1)
-#A_LblIndex   = Button(TLP1, 2)
+A_LblIndex   = Label(TLP1, 2)
 ## PIN
 A_BtnPin0    = Button(TLP1, 1000)
 A_BtnPin1    = Button(TLP1, 1001)
@@ -48,7 +44,8 @@ A_BtnPin7    = Button(TLP1, 1007)
 A_BtnPin8    = Button(TLP1, 1008)
 A_BtnPin9    = Button(TLP1, 1009)
 A_BtnPinD    = Button(TLP1, 1010, repeatTime = 0.1)
-A_LblPIN     = Label(TLP1, 1011)
+A_BtnPinX    = Button(TLP1, 1011)
+A_LblPIN     = Label(TLP1, 1012)
 
 ## Main
 A_BtnVideo   = Button(TLP1, 11)
@@ -60,10 +57,10 @@ A_BtnPwrOff  = Button(TLP1, 16)
 A_LblMaster  = Label(TLP1, 300)
 A_LblRoom    = Label(TLP1, 301)
 ## Video
-A_BtnHDMI    = Button(TLP1, 21)
-A_BtnShare   = Button(TLP1, 22)
-A_BtnPwrOn   = Button(TLP1, 23)
-A_BtnPwrOff  = Button(TLP1, 24)
+A_BtnVHDMI   = Button(TLP1, 21)
+A_BtnVShare  = Button(TLP1, 22)
+A_BtnVPwrOn  = Button(TLP1, 23)
+A_BtnVPwrOff = Button(TLP1, 24)
 A_BtnUp      = Button(TLP1, 25)
 A_BtnStop    = Button(TLP1, 26)
 A_BtnDown    = Button(TLP1, 27)
@@ -89,88 +86,74 @@ A_Btn232Cisc = Button(TLP1, 66)
 A_BtnLANSMP  = Button(TLP1, 67)
 A_BtnLANVadd = Button(TLP1, 68)
 ## PowerOff
-A_BtnPwrAll  = Button(TLP1, 101)
-#A_LblPwrAll  = Button(TLP1, 102)
+A_BtnPwrAll  = Button(TLP1, 101, holdTime = 3)
+A_LblPwrAll  = Label(TLP1, 102)
 '''PANEL - ROOM B ...........................................................'''
 '''PANEL - ROOM C ...........................................................'''
 '''PANEL - Group Buttons ..................................................--'''
 #--
-PageIndex = [A_BtnIndex]
+PageIndex   = [A_BtnIndex]
 #--
-PagePIN   = [A_BtnPin0, A_BtnPin1, A_BtnPin2, A_BtnPin3, A_BtnPin4, A_BtnPin5,
-             A_BtnPin6, A_BtnPin7, A_BtnPin8, A_BtnPin9, A_BtnPinD]
+PagePIN     = [A_BtnPin0, A_BtnPin1, A_BtnPin2, A_BtnPin3, A_BtnPin4, A_BtnPin5,
+             A_BtnPin6, A_BtnPin7, A_BtnPin8, A_BtnPin9, A_BtnPinD, A_BtnPinX]
 #--
-PageMain  = [A_BtnVideo, A_BtnAudio, A_BtnBlinds, A_BtnLights, A_BtnStatus, A_BtnPwrOff]
+PageMain    = [A_BtnVideo, A_BtnAudio, A_BtnBlinds, A_BtnLights, A_BtnStatus, A_BtnPwrOff]
+GroupMainA  = MESet([A_BtnVideo, A_BtnAudio, A_BtnBlinds, A_BtnLights, A_BtnStatus, A_BtnPwrOff])
 #--
+PageVideo   = [A_BtnVHDMI, A_BtnVShare, A_BtnVPwrOn, A_BtnVPwrOff, A_BtnUp, A_BtnStop, A_BtnDown]
+GroupVideoA = MESet([A_BtnUp, A_BtnStop, A_BtnDown])
 #--
+PageAudio   = [A_BtnVolLess, A_BtnVolPlus, A_BtnMute]
 #--
+PageBlinds  = [A_BtnBUp, A_BtnBStop, A_BtnBDown]
+GroupBlindsA = MESet(PageBlinds)
 #--
+PageLights = [A_BtnLightOn, A_BtnLightOf]
+GroupLightsA = MESet(PageLights)
 #--
+PagePowerAll = [A_BtnPwrAll]
 #--
 #--
 ButtonEventList = ['Pressed', 'Released', 'Held', 'Repeated', 'Tapped']
 ## End Communication Interface Definition --------------------------------------
 def Initialize():
     #Index Variables
-    global PIN_M
     global PIN_A
-    global PIN_B
-    global PIN_C
-    global PIN_M_Secret
     global PIN_A_Secret
-    global PIN_B_Secret
-    global PIN_C_Secret
     global PIN_A_GUI
     #--
-    PIN_M = []
     PIN_A = []
-    PIN_B = []
-    PIN_C = []
     PIN_A_GUI = []
-    
-    PIN_M_Secret = '1414'
     PIN_A_Secret = '1414'
-    PIN_B_Secret = '1414'
-    PIN_C_Secret = '1414'
     #--
+    A_LblIndex.SetText('Panel - Sala A')
+    A_LblRoom.SetText('Panel A')
     A_LblPIN.SetText('')
-    #B_LblPIN.SetText('')
-    #C_LblPIN.SetText('')
-    #D_LblPIN.SetText('')
-    
-    #Index GUI
+    #--
     TLP1.ShowPage('Index')
     TLP1.HideAllPopups()
+    GroupMainA.SetCurrent(None)
     pass
 
 ## Event Definitions -----------------------------------------------------------
 ## Index -----------------------------------------------------------------------
 @event(PageIndex, ButtonEventList)
 def IndexEvents(button, state):
-    '''if button.Host.DeviceAlias == 'TouchPanelM':
-        if button is M_BtnIndex and state == 'Pressed':
-            print("Touch M: Index Pressed")
-            TLPM.ShowPopup('PIN')'''
     if button.Host.DeviceAlias == 'TouchPanelA':
         if button is A_BtnIndex and state == 'Pressed':            
-            TLP1.ShowPopup('PIN')            
+            PIN_A = []
+            PIN_A_GUI = []
+            A_LblPIN.SetText('')
+            TLP1.ShowPopup('PIN')
             print("Touch A: Index Pressed")
-    '''if button.Host.DeviceAlias == 'TouchPanelB':
-        if button is B_BtnIndex and state == 'Pressed':
-            print("Touch B: Index Pressed")
-            TLP2.ShowPopup('PIN')
-    if button.Host.DeviceAlias == 'TouchPanelC':
-        if button is C_BtnIndex and state == 'Pressed':
-            print("Touch C: Index Pressed")
-            TLP3.ShowPopup('PIN')'''
     pass
 
 ## PIN -------------------------------------------------------------------------
-def PINValidation(Number, Delete): #This validate the PIN Security Panel
-    global PIN_A, PIN_A_GUI, OK
-    OK  = ''
+def PINValidationA(Number, Delete): #This validate the PIN Security Panel
+    global PIN_A, PIN_A_GUI
     #--
     if Number != None:                          #If user send a number
+        Number = str(Number)                    #Convert the number to string
         if len(PIN_A) >= 0 and len(PIN_A) <= 3: #Ej= '1234'
             #--
             PIN_A.append(Number)        #Append the last number to internal list
@@ -210,7 +193,7 @@ def PINEvents(button, state):
         if button is A_BtnPin0 and state == 'Pressed':
             A_BtnPin0.SetState(1)
             #--     
-            PINValidation('0', None)
+            PINValidationA(0, None)
             print("Touch A: PIN 0 Pressed")
         else:
             A_BtnPin0.SetState(0)
@@ -218,14 +201,14 @@ def PINEvents(button, state):
         if button is A_BtnPin1 and state == 'Pressed':
             A_BtnPin1.SetState(1)
             #--
-            PINValidation('1', None)
+            PINValidationA(1, None)
             print("Touch A: PIN 1 Pressed")
         else:
             A_BtnPin1.SetState(0)
         #--
         if button is A_BtnPin2 and state == 'Pressed':
             #--     
-            PINValidation('2', None)
+            PINValidationA(2, None)
             print("Touch A: PIN 2 Pressed")
         else:
             A_BtnPin2.SetState(0)
@@ -233,7 +216,7 @@ def PINEvents(button, state):
         if button is A_BtnPin3 and state == 'Pressed':
             A_BtnPin3.SetState(1)
             #--     
-            PINValidation('3', None)
+            PINValidationA(3, None)
             print("Touch A: PIN 3 Pressed")
         else:
             A_BtnPin3.SetState(0)
@@ -241,7 +224,7 @@ def PINEvents(button, state):
         if button is A_BtnPin4 and state == 'Pressed':
             A_BtnPin4.SetState(1)
             #--     
-            PINValidation('4', None)
+            PINValidationA(4, None)
             print("Touch A: PIN 4 Pressed")
         else:
             A_BtnPin4.SetState(0)
@@ -249,7 +232,7 @@ def PINEvents(button, state):
         if button is A_BtnPin5 and state == 'Pressed':
             A_BtnPin5.SetState(1)
             #--     
-            PINValidation('5', None)
+            PINValidationA(5, None)
             print("Touch A: PIN 5 Pressed")
         else:
             A_BtnPin5.SetState(0)
@@ -257,7 +240,7 @@ def PINEvents(button, state):
         if button is A_BtnPin6 and state == 'Pressed':
             A_BtnPin6.SetState(1)
             #--     
-            PINValidation('6', None)
+            PINValidationA(6, None)
             print("Touch A: PIN 6 Pressed")
         else:
             A_BtnPin6.SetState(0)
@@ -265,7 +248,7 @@ def PINEvents(button, state):
         if button is A_BtnPin7 and state == 'Pressed':
             A_BtnPin7.SetState(1)
             #--     
-            PINValidation('7', None)
+            PINValidationA(7, None)
             print("Touch A: PIN 7 Pressed")
         else:
             A_BtnPin7.SetState(0)
@@ -273,7 +256,7 @@ def PINEvents(button, state):
         if button is A_BtnPin8 and state == 'Pressed':
             A_BtnPin8.SetState(1)
             #--     
-            PINValidation('8', None)
+            PINValidationA(8, None)
             print("Touch A: PIN 8 Pressed")
         else:
             A_BtnPin8.SetState(0)
@@ -281,7 +264,7 @@ def PINEvents(button, state):
         if button is A_BtnPin9 and state == 'Pressed':
             A_BtnPin9.SetState(1)
             #--     
-            PINValidation('9', None)
+            PINValidationA(9, None)
             print("Touch A: PIN 9 Pressed")
         else:
             A_BtnPin9.SetState(0)
@@ -289,11 +272,144 @@ def PINEvents(button, state):
         if button is A_BtnPinD and state == 'Pressed':
             A_BtnPinD.SetState(1)
             #--
-            PINValidation(None, 'Delete')
+            PINValidationA(None, 'Delete')
             print("Touch A: PIN Delete Pressed")
         else:
             A_BtnPinD.SetState(0)
+        #--
+        if button is A_BtnPinX and state == 'Pressed':
+            TLP1.HidePopup('PIN')
     pass
 
+## Main ------------------------------------------------------------------------
+@event(PageMain, ButtonEventList)
+def PageMain(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnVideo and state == 'Pressed':
+            A_LblMaster.SetText('Control de Video')
+            TLP1.ShowPopup('Video')
+            GroupMainA.SetCurrent(A_BtnVideo)
+            print('Touch A: %s' % ('Video'))
+        #--
+        elif button is A_BtnAudio and state == 'Pressed':
+            A_LblMaster.SetText('Control de Audio')
+            TLP1.ShowPopup('Audio')
+            GroupMainA.SetCurrent(A_BtnAudio)
+            print('Touch A: %s' % ('Audio'))
+        #--
+        elif button is A_BtnBlinds and state == 'Pressed':
+            A_LblMaster.SetText('Control de Persianas')
+            TLP1.ShowPopup('Persianas')
+            GroupMainA.SetCurrent(A_BtnBlinds)
+            print('Touch A: %s' % ('Persianas'))
+        #--
+        elif button is A_BtnLights and state == 'Pressed':
+            A_LblMaster.SetText('Control de Luces')
+            TLP1.ShowPopup('Luces')
+            GroupMainA.SetCurrent(A_BtnLights)
+            print('Touch A: %s' % ('Luces'))
+        #--
+        elif button is A_BtnStatus and state == 'Pressed':
+            A_LblMaster.SetText('Información de Dispositivos')
+            TLP1.ShowPopup('Status')
+            GroupMainA.SetCurrent(A_BtnStatus)
+            print('Touch A: %s' % ('Status'))
+        #--
+        elif button is A_BtnPwrOff and state == 'Pressed':
+            A_LblMaster.SetText('Apagado de Sala')
+            TLP1.ShowPopup('x_PowerOff')
+            GroupMainA.SetCurrent(A_BtnPwrOff)
+            print('Touch A: %s' % ('PowerOff'))
+    pass
+## Video -----------------------------------------------------------------------
+@event(PageVideo, ButtonEventList)
+def PageVideo(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnVHDMI and state == 'Pressed':
+            print('Touch A: %s' % ('HDMI'))
+        elif button is A_BtnVShare and state == 'Pressed':
+            print('Touch A: %s' % ('ShareLink'))
+        elif button is A_BtnVPwrOn and state == 'Pressed':
+            print('Touch A: %s' % ('PowerOn'))
+        elif button is A_BtnVPwrOff and state == 'Pressed':
+            print('Touch A: %s' % ('PowerOff'))
+        elif button is A_BtnUp and state == 'Pressed':
+            GroupVideoA.SetCurrent(A_BtnUp)
+            print('Touch A: %s' % ('Screen Up'))
+        elif button is A_BtnStop and state == 'Pressed':
+            GroupVideoA.SetCurrent(A_BtnStop)
+            print('Touch A: %s' % ('Screen Stop'))
+        elif button is A_BtnDown and state == 'Pressed':
+            GroupVideoA.SetCurrent(A_BtnDown)
+            print('Touch A: %s' % ('Screen Down'))
+    pass
+## Audio -----------------------------------------------------------------------
+@event(PageAudio, ButtonEventList)
+def PageAudio(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnVolLess and state == 'Pressed':
+            A_BtnVolLess.SetState(1)
+            print('Touch A: %s' % ('Audio -'))
+        elif button is A_BtnVolLess and state == 'Repeated':
+            A_BtnVolLess.SetState(1)
+            print('Touch A: %s' % ('Audio -'))        
+        else:
+            A_BtnVolLess.SetState(0)
+        #--
+        if button is A_BtnVolPlus and state == 'Pressed':
+            A_BtnVolPlus.SetState(1)
+            print('Touch A: %s' % ('Audio +'))
+        if button is A_BtnVolPlus and state == 'Repeated':
+            A_BtnVolPlus.SetState(1)
+            print('Touch A: %s' % ('Audio +'))
+        else:
+            A_BtnVolPlus.SetState(0)
+        #--
+        if button is A_BtnMute and state == 'Pressed':
+            print('Touch A: %s' % ('Audio Mute'))
+    pass
+## Persianas -------------------------------------------------------------------
+@event(PageBlinds, ButtonEventList)
+def PageBlinds(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnBUp and state == 'Pressed':
+            GroupBlindsA.SetCurrent(A_BtnBUp)
+            print('Touch A: %s' % ('Persianas Up'))
+        elif button is A_BtnBStop and state == 'Pressed':
+            GroupBlindsA.SetCurrent(A_BtnBStop)
+            print('Touch A: %s' % ('Persianas Stop'))
+        elif button is A_BtnBDown and state == 'Pressed':
+            GroupBlindsA.SetCurrent(A_BtnBDown)
+            print('Touch A: %s' % ('Persianas Down'))
+    pass
+## Lights ----------------------------------------------------------------------
+@event(PageLights, ButtonEventList)
+def PageLights(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnLightOn and state == 'Pressed':
+            GroupLightsA.SetCurrent(A_BtnLightOn)
+            print('Touch A: %s' % ('Lights On'))
+        elif button is A_BtnLightOf and state == 'Pressed':
+            GroupLightsA.SetCurrent(A_BtnLightOf)
+            print('Touch A: %s' % ('Lights Off'))
+    pass
+## Status ----------------------------------------------------------------------
+## PowerOff --------------------------------------------------------------------
+@event(PagePowerAll, ButtonEventList)
+def PageLights(button, state):
+    if button.Host.DeviceAlias == 'TouchPanelA':
+    #--
+        if button is A_BtnPwrAll and state == 'Pressed':
+            print('Touch A: %s' % ('PowerAll Pressed'))
+        elif button is A_BtnPwrAll and state == 'Held':
+            TLP1.HideAllPopups()
+            TLP1.ShowPage('Index')
+            print('Touch A: %s' % ('PowerAll Ok'))
+    pass
 ## End Events Definitions-------------------------------------------------------
 Initialize()
