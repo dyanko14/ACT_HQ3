@@ -377,7 +377,7 @@ def Initialize():
     #--
     TLPM.ShowPage('Index')
     TLPM.HideAllPopups()
-    GroupMainM.SetCurrent(None)
+    #GroupMainM.SetCurrent(None)
 
     TLP1.ShowPage('Index')
     TLP1.HideAllPopups()
@@ -398,44 +398,48 @@ def Initialize():
 def IndexEvents(button, state):
     #--
     if button.Host.DeviceAlias == 'TouchPanelM':
-        if button is M_BtnIndex and state == 'Pressed':            
-            Pin_M = []
-            Pin_M_GUI = []
-            M_LblPIN.SetText('')
+        if button is M_BtnIndex and state == 'Pressed':
             TLPM.ShowPopup('PIN')
             print("Touch Master: Index Pressed")
     #--
     elif button.Host.DeviceAlias == 'TouchPanelA':
-        if button is A_BtnIndex and state == 'Pressed':            
-            Pin_A = []
-            Pin_A_GUI = []
-            A_LblPIN.SetText('')
+        if button is A_BtnIndex and state == 'Pressed':
             TLP1.ShowPopup('PIN')
             print("Touch A: Index Pressed")
     #--
     elif button.Host.DeviceAlias == 'TouchPanelB':
         if button is B_BtnIndex and state == 'Pressed':            
-            Pin_B = []
-            Pin_B_GUI = []
-            B_LblPIN.SetText('')
             TLP2.ShowPopup('PIN')
             print("Touch B: Index Pressed")
     #--
     elif button.Host.DeviceAlias == 'TouchPanelC':
         if button is C_BtnIndex and state == 'Pressed':            
-            Pin_C = []
-            Pin_C_GUI = []
-            C_LblPIN.SetText('')
             TLP3.ShowPopup('PIN')
             print("Touch C: Index Pressed")
     pass
 
 ## PIN A------------------------------------------------------------------------
-def PINValidationA(Number, Option): #This validate the PIN Security Panel
+def PINValidationA(Pin_Button): #This validate the PIN Security Panel
     global Pin_A, Pin_A_GUI
     #--
-    if Number != None:                          #If user send a number
-        Number = str(Number[3])                 #Extract the number of btn name
+    if Pin_Button == 'PINDelete':
+        if len(Pin_A) > 0:              #If the list have data
+            Pin_A.pop()                 #Delete the last number of the list
+            Pin_A_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(Pin_A)     #Convert the list to cleaned string data
+            Clean2 = "".join(Pin_A_GUI) #Convert the list to cleaned string data
+            A_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel            
+        else:
+            print('Empty List')         #Notify to console
+    #--
+    elif Pin_Button == 'PINExit':
+        TLP1.HidePopup('PIN')           #Show the Index Page
+        Pin_A = []                      #Erase each items in list [0-9]
+        Pin_A_GUI = []                  #Erase each items in list [****]
+        A_LblPIN.SetText('')            #Erase each items in panel
+    #--
+    else:                                       #If the user push a number [0-9]:
+        Number = str(Pin_Button[3])             #Extract the number of btn name
         if len(Pin_A) >= 0 and len(Pin_A) <= 3: #Ej= '1234'
             #--
             Pin_A.append(Number)        #Append the last number to internal list
@@ -457,27 +461,30 @@ def PINValidationA(Number, Option): #This validate the PIN Security Panel
                     @Wait(1)                      #Wait 1s
                     def EraseText():              #Erase data from Panel
                         A_LblPIN.SetText('')
-    #--
-    if Option == 'PINDelete':           #If the user pulse Delete Button
-        if len(Pin_A) > 0:              #If the list have data
-            Pin_A.pop()                 #Delete the last number of the list
-            Pin_A_GUI.pop()             #Delete the last '*' of the list
-            Clean  = "".join(Pin_A)     #Convert the list to cleaned string data
-            Clean2 = "".join(Pin_A_GUI) #Convert the list to cleaned string data
-            A_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
-        else:
-            print('Empty List')         #Notify to console
-    #--
-    if Option == 'PINExit':             #If the user pulse Exit Button
-        TLP1.HidePopup('PIN')           #Show the Index Page
     pass
 
 ## PIN B -----------------------------------------------------------------------
-def PINValidationB(Number, Option): #This validate the PIN Security Panel
+def PINValidationB(Pin_Button): #This validate the PIN Security Panel
     global Pin_B, Pin_B_GUI
     #--
-    if Number != None:                          #If user send a number
-        Number = str(Number[3])                 #Extract the number of btn name
+    if Pin_Button == 'PINDelete':
+        if len(Pin_B) > 0:              #If the list have data
+            Pin_B.pop()                 #Delete the last number of the list
+            Pin_B_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(Pin_B)     #Convert the list to cleaned string data
+            Clean2 = "".join(Pin_B_GUI) #Convert the list to cleaned string data
+            B_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel            
+        else:
+            print('Empty List')         #Notify to console
+    #--
+    elif Pin_Button == 'PINExit':
+        TLP2.HidePopup('PIN')           #Show the Index Page
+        Pin_B = []                      #Erase each items in list [0-9]
+        Pin_B_GUI = []                  #Erase each items in list [****]
+        B_LblPIN.SetText('')            #Erase each items in panel
+    #--
+    else:                                       #If the user push a number [0-9]:
+        Number = str(Pin_Button[3])             #Extract the number of btn name
         if len(Pin_B) >= 0 and len(Pin_B) <= 3: #Ej= '1234'
             #--
             Pin_B.append(Number)        #Append the last number to internal list
@@ -499,27 +506,30 @@ def PINValidationB(Number, Option): #This validate the PIN Security Panel
                     @Wait(1)                      #Wait 1s
                     def EraseText():              #Erase data from Panel
                         B_LblPIN.SetText('')
-    #--
-    if Option == 'PINDelete':           #If the user pulse Delete Button
-        if len(Pin_B) > 0:              #If the list have data
-            Pin_B.pop()                 #Delete the last number of the list
-            Pin_B_GUI.pop()             #Delete the last '*' of the list
-            Clean  = "".join(Pin_B)     #Convert the list to cleaned string data
-            Clean2 = "".join(Pin_B_GUI) #Convert the list to cleaned string data
-            B_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
-        else:
-            print('Empty List')         #Notify to console
-    #--
-    if Option == 'PINExit':             #If the user pulse Exit Button
-        TLP2.HidePopup('PIN')           #Show the Index Page
     pass
 
 ## PIN C -----------------------------------------------------------------------
-def PINValidationC(Number, Option): #This validate the PIN Security Panel
+def PINValidationC(Pin_Button): #This validate the PIN Security Panel
     global Pin_C, Pin_C_GUI
     #--
-    if Number != None:                          #If user send a number
-        Number = str(Number[3])                 #Extract the number of btn name
+    if Pin_Button == 'PINDelete':
+        if len(Pin_C) > 0:              #If the list have data
+            Pin_C.pop()                 #Delete the last number of the list
+            Pin_C_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(Pin_C)     #Convert the list to cleaned string data
+            Clean2 = "".join(Pin_C_GUI) #Convert the list to cleaned string data
+            C_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel            
+        else:
+            print('Empty List')         #Notify to console
+    #--
+    elif Pin_Button == 'PINExit':
+        TLP3.HidePopup('PIN')           #Show the Index Page
+        Pin_C = []                      #Erase each items in list [0-9]
+        Pin_C_GUI = []                  #Erase each items in list [****]
+        C_LblPIN.SetText('')            #Erase each items in panel
+    #--
+    else:                                       #If the user push a number [0-9]:
+        Number = str(Pin_Button[3])             #Extract the number of btn name
         if len(Pin_C) >= 0 and len(Pin_C) <= 3: #Ej= '1234'
             #--
             Pin_C.append(Number)        #Append the last number to internal list
@@ -541,27 +551,30 @@ def PINValidationC(Number, Option): #This validate the PIN Security Panel
                     @Wait(1)                      #Wait 1s
                     def EraseText():              #Erase data from Panel
                         C_LblPIN.SetText('')
-    #--
-    if Option == 'PINDelete':           #If the user pulse Delete Button
-        if len(Pin_C) > 0:              #If the list have data
-            Pin_C.pop()                 #Delete the last number of the list
-            Pin_C_GUI.pop()             #Delete the last '*' of the list
-            Clean  = "".join(Pin_C)     #Convert the list to cleaned string data
-            Clean2 = "".join(Pin_C_GUI) #Convert the list to cleaned string data
-            C_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
-        else:
-            print('Empty List')         #Notify to console
-    #--
-    if Option == 'PINExit':             #If the user pulse Exit Button
-        TLP3.HidePopup('PIN')           #Show the Index Page
     pass
 
 ## PIN Master ------------------------------------------------------------------
-def PINValidationM(Number, Option): #This validate the PIN Security Panel
+def PINValidationM(Pin_Button): #This validate the PIN Security Panel
     global Pin_M, Pin_M_GUI
     #--
-    if Number != None:                          #If user send a number
-        Number = str(Number[3])                 #Extract the number of btn name
+    if Pin_Button == 'PINDelete':
+        if len(Pin_M) > 0:              #If the list have data
+            Pin_M.pop()                 #Delete the last number of the list
+            Pin_M_GUI.pop()             #Delete the last '*' of the list
+            Clean  = "".join(Pin_M)     #Convert the list to cleaned string data
+            Clean2 = "".join(Pin_M_GUI) #Convert the list to cleaned string data
+            M_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel            
+        else:
+            print('Empty List')         #Notify to console
+    #--
+    elif Pin_Button == 'PINExit':
+        TLPM.HidePopup('PIN')           #Show the Index Page
+        Pin_M = []                      #Erase each items in list [0-9]
+        Pin_M_GUI = []                  #Erase each items in list [****]
+        M_LblPIN.SetText('')            #Erase each items in panel
+    #--
+    else:                                       #If the user push a number [0-9]:
+        Number = str(Pin_Button[3])             #Extract the number of btn name
         if len(Pin_M) >= 0 and len(Pin_M) <= 3: #Ej= '1234'
             #--
             Pin_M.append(Number)        #Append the last number to internal list
@@ -583,19 +596,6 @@ def PINValidationM(Number, Option): #This validate the PIN Security Panel
                     @Wait(1)                      #Wait 1s
                     def EraseText():              #Erase data from Panel
                         M_LblPIN.SetText('')
-    #--
-    if Option == 'PINDelete':           #If the user pulse Delete Button
-        if len(Pin_M) > 0:              #If the list have data
-            Pin_M.pop()                 #Delete the last number of the list
-            Pin_M_GUI.pop()             #Delete the last '*' of the list
-            Clean  = "".join(Pin_M)     #Convert the list to cleaned string data
-            Clean2 = "".join(Pin_M_GUI) #Convert the list to cleaned string data
-            M_LblPIN.SetText(Clean2)    #Send the final '*' string to Panel
-        else:
-            print('Empty List')         #Notify to console
-    #--
-    if Option == 'PINExit':             #If the user pulse Exit Button
-        TLPM.HidePopup('PIN')           #Show the Index Page
     pass
 
 ## PIN Page --------------------------------------------------------------------
@@ -607,12 +607,7 @@ def PINEvents(button, state):
             print('Panel Master: ' + button.Name)
             button.SetState(1)
             #--
-            if button.Name == 'PINDelete':         #PIN Delete Button
-                PINValidationM(None, button.Name)  #Recall a validation function
-            elif button.Name == 'PINExit':         #PIN Exit Button
-                PINValidationM(None, button.Name)  #Recall a validation function
-            else:                                  #PIN 0-9 Button
-                PINValidationM(button.Name, None)  #Recall a validation function
+            PINValidationM(button.Name)  #Recall a validation function
         else:
             button.SetState(0)
     #--
@@ -621,12 +616,7 @@ def PINEvents(button, state):
             print('Panel A: ' + button.Name)
             button.SetState(1)
             #--
-            if button.Name == 'PINDelete':         #PIN Delete Button
-                PINValidationA(None, button.Name)  #Recall a validation function
-            elif button.Name == 'PINExit':         #PIN Exit Button
-                PINValidationA(None, button.Name)  #Recall a validation function
-            else:                                  #PIN 0-9 Button
-                PINValidationA(button.Name, None)  #Recall a validation function
+            PINValidationA(button.Name)  #Recall a validation function
         else:
             button.SetState(0)
     #--
@@ -635,12 +625,7 @@ def PINEvents(button, state):
             print('Panel B: ' + button.Name)
             button.SetState(1)
             #--
-            if button.Name == 'PINDelete':         #PIN Delete Button
-                PINValidationB(None, button.Name)  #Recall a validation function
-            elif button.Name == 'PINExit':         #PIN Exit Button
-                PINValidationB(None, button.Name)  #Recall a validation function
-            else:                                  #PIN 0-9 Button
-                PINValidationB(button.Name, None)  #Recall a validation function
+            PINValidationB(button.Name)  #Recall a validation function
         else:
             button.SetState(0)
     #--
@@ -649,12 +634,7 @@ def PINEvents(button, state):
             print('Panel C: ' + button.Name)
             button.SetState(1)
             #--
-            if button.Name == 'PINDelete':         #PIN Delete Button
-                PINValidationC(None, button.Name)  #Recall a validation function
-            elif button.Name == 'PINExit':         #PIN Exit Button
-                PINValidationC(None, button.Name)  #Recall a validation function
-            else:                                  #PIN 0-9 Button
-                PINValidationC(button.Name, None)  #Recall a validation function
+            PINValidationC(button.Name)  #Recall a validation function
         else:
             button.SetState(0)
     pass
