@@ -18,7 +18,16 @@ from gui import TLPM, TLP1, TLP2, TLP3, BTN, BTNPAGE, BTNGROUP, BTNSTATE, LBL, L
 
 ## MODULE IMPORT ---------------------------------------------------------------
 ## IP:
+import extr_matrix_DXP_Series_v1_2_3_0 as DeviceA
+import biam_dsp_TesiraSeries_v1_5_20_0 as DeviceB
+import biam_cs_Devio_CR1_v1_0_0_0A as DeviceC
+import biam_cs_Devio_CR1_v1_0_0_0B as DeviceD
+import biam_cs_Devio_CR1_v1_0_0_0C as DeviceE
+
 ## RS-232:
+import extr_switcher_SW_HDMI_Series_v1_0_2_0 as DeviceF
+import extr_switcher_SW_HDMI_Series_v1_0_2_0 as DeviceG
+#import extr_switcher_SW_HDMI_Series_v1_0_2_0 as DeviceE
 
 print(Version())
 
@@ -26,21 +35,37 @@ print(Version())
 IPCP = ProcessorDevice('IPlink')
 
 ## IP:
+MATRIX = DeviceA.EthernetClass('10.10.10.10', 23, Model='DXP 88 HD 4k')
+BIAMP = DeviceB.EthernetClass('192.168.10.150', 23, Model='TesiraFORTE CI')
+DEVIO1 = DeviceC.EthernetClass('10.10.10.11', 4030, Model='Devio CR-1')
+DEVIO2 = DeviceD.EthernetClass('10.10.10.12', 4030, Model='Devio CR-1')
+DEVIO3 = DeviceE.EthernetClass('10.10.10.13', 4030, Model='Devio CR-1')
 ## RS-232:
+SWITCH1 = DeviceF.SerialClass(IPCP, 'COM1', Baud=9600, Model='SW4 HDMI')
+SWITCH2 = DeviceG.SerialClass(IPCP, 'COM2', Baud=9600, Model='SW4 HDMI')
+#SWITCH3 = DeviceE.SerialClass(IPCP, 'COM3', Baud=9600, Model='SW4 HDMI')
 
 ## INITIALIZATE ----------------------------------------------------------------
 def initialize():
     """This is the last function that loads when starting the system """
     ## OPEN CONNECTION SOCKETS
     ## IP
+    MATRIX.Connect()
+    BIAMP.Connect()
+    DEVIO1.Connect()
+    DEVIO2.Connect()
+    DEVIO3.Connect()
     ## RS-232
+    SWITCH1.Initialize()
+    SWITCH2.Initialize()
+    #SWITCH3.Initialize()
 
     ## RECURSIVE FUNCTIONS
 
     ## POWER COUNTER VARIABLE
 
     ## DATA INITIALIZE
-
+    ## TouchPanel Master Data
     global Pin_M
     global Pin_M_Secret
     global Pin_M_GUI
@@ -70,26 +95,31 @@ def initialize():
     Pin_C_Secret = '3333'
 
     ## TOUCH PANEL FUNCTIONS
-    ## TouchPanel Master Functions
+    ## TouchPanel Master
     LBL['M_Index'].SetText('Panel Master')
     LBL['M_Room'].SetText('Panel Master')
     LBL['M_PIN'].SetText('')
-    ## TouchPanel Room A Functions
+    ## TouchPanel Room A
     LBL['A_Index'].SetText('Bienvenido a Sala Everest')
     LBL['A_Room'].SetText('Panel A')
     LBL['A_PIN'].SetText('')
-    ## TouchPanel Room B Functions
+    ## TouchPanel Room B
     LBL['B_Index'].SetText('Bienvenido a Sala Orizaba')
     LBL['B_Room'].SetText('Panel B')
     LBL['B_PIN'].SetText('')
-    ## TouchPanel Room C Functions
+    ## TouchPanel Room C
     LBL['C_Index'].SetText('Bienvenido a Sala Aconcagua')
     LBL['C_Room'].SetText('Panel C')
     LBL['C_PIN'].SetText('')
 
+    ## TOUCH PANEL PAGES
+    TLP1.ShowPage('Index')
+    TLP2.ShowPage('Index')
+    TLP3.ShowPage('Index')
+    TLPM.ShowPage('Index')
+
     TLPM.ShowPage('Index')
     TLPM.HideAllPopups()
-    #GroupMainM.SetCurrent(None)
 
     TLP1.ShowPage('Index')
     TLP1.HideAllPopups()
@@ -115,6 +145,155 @@ def initialize():
 ## These functions receive the data of the devices in real time
 ## Each function stores the parsed data in dictionaries and activate feedback
 ## Each function works with the subscription methods of the Python modules
+def devio1_parsing(command, value, qualifier):
+    """Retrieve the Real Information of the Device """
+    if command == 'ConnectionStatus':
+        print('Matrix Module Conex status: {}'.format(value))
+
+        if value == 'Connected':
+            DEVIO1_DATA['ConexModule'] = True
+            BTN['A_LANDevio'].SetState(1)
+        else:
+            DEVIO1_DATA['ConexModule'] = False
+            BTN['A_LANDevio'].SetState(0)
+            ## Disconnect the IP Socket
+            DEVIO1.Disconnect()
+
+    elif command == 'CallInProgress':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['CallInProgress'] = True
+        else:
+            DEVIO1_DATA['CallInProgress'] = False
+
+    elif command == 'FarEndAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['FarEndAudioPresent'] = True
+        else:
+            DEVIO1_DATA['FarEndAudioPresent'] = False
+
+    elif command == 'LineFault':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['LineFault'] = True
+        else:
+            DEVIO1_DATA['LineFault'] = False
+
+    elif command == 'MasterMicrophoneMute':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MasterMicMute'] = True
+        else:
+            DEVIO1_DATA['MasterMicMute'] = True
+
+    elif command == 'MicrophoneAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MicAudioPresent'] = True
+        else:
+            DEVIO1_DATA['MicAudioPresent'] = False
+    pass
+
+def devio2_parsing(command, value, qualifier):
+    """Retrieve the Real Information of the Device """
+    if command == 'ConnectionStatus':
+        print('Matrix Module Conex status: {}'.format(value))
+
+        if value == 'Connected':
+            DEVIO1_DATA['ConexModule'] = True
+            BTN['A_LANDevio'].SetState(1)
+        else:
+            DEVIO1_DATA['ConexModule'] = False
+            BTN['A_LANDevio'].SetState(0)
+            ## Disconnect the IP Socket
+            DEVIO1.Disconnect()
+
+    elif command == 'CallInProgress':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['CallInProgress'] = True
+        else:
+            DEVIO1_DATA['CallInProgress'] = False
+
+    elif command == 'FarEndAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['FarEndAudioPresent'] = True
+        else:
+            DEVIO1_DATA['FarEndAudioPresent'] = False
+
+    elif command == 'LineFault':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['LineFault'] = True
+        else:
+            DEVIO1_DATA['LineFault'] = False
+
+    elif command == 'MasterMicrophoneMute':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MasterMicMute'] = True
+        else:
+            DEVIO1_DATA['MasterMicMute'] = True
+
+    elif command == 'MicrophoneAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MicAudioPresent'] = True
+        else:
+            DEVIO1_DATA['MicAudioPresent'] = False
+    pass
+
+def devio3_parsing(command, value, qualifier):
+    """Retrieve the Real Information of the Device """
+    if command == 'ConnectionStatus':
+        print('Matrix Module Conex status: {}'.format(value))
+
+        if value == 'Connected':
+            DEVIO1_DATA['ConexModule'] = True
+            BTN['A_LANDevio'].SetState(1)
+        else:
+            DEVIO1_DATA['ConexModule'] = False
+            BTN['A_LANDevio'].SetState(0)
+            ## Disconnect the IP Socket
+            DEVIO1.Disconnect()
+
+    elif command == 'CallInProgress':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['CallInProgress'] = True
+        else:
+            DEVIO1_DATA['CallInProgress'] = False
+
+    elif command == 'FarEndAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['FarEndAudioPresent'] = True
+        else:
+            DEVIO1_DATA['FarEndAudioPresent'] = False
+
+    elif command == 'LineFault':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['LineFault'] = True
+        else:
+            DEVIO1_DATA['LineFault'] = False
+
+    elif command == 'MasterMicrophoneMute':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MasterMicMute'] = True
+        else:
+            DEVIO1_DATA['MasterMicMute'] = True
+
+    elif command == 'MicrophoneAudioPresent':
+        print(value)
+        if value == 'True':
+            DEVIO1_DATA['MicAudioPresent'] = True
+        else:
+            DEVIO1_DATA['MicAudioPresent'] = False
+    pass
 
 ## EVENT FUNCTIONS ----------------------------------------------------------------
 ## This functions report a 'Online' / 'Offline' status after to send a Connect()
@@ -132,6 +311,39 @@ def initialize():
 ## DATA DICTIONARIES -----------------------------------------------------------
 ## Each dictionary store the real time information of room devices
 ## IP
+DEVIO1_DATA = {
+    'ConexModule'        : None,
+    'ConexEvent'         : None,
+    ##
+    'CallInProgress'     : None,
+    'FarEndAudioPresent' : None,
+    'LineFault'          : None,
+    'MasterMicMute'      : None,
+    'MicAudioPresent'    : None,
+}
+
+DEVIO2_DATA = {
+    'ConexModule'        : None,
+    'ConexEvent'         : None,
+    ##
+    'CallInProgress'     : None,
+    'FarEndAudioPresent' : None,
+    'LineFault'          : None,
+    'MasterMicMute'      : None,
+    'MicAudioPresent'    : None,
+}
+
+DEVIO3_DATA = {
+    'ConexModule'        : None,
+    'ConexEvent'         : None,
+    ##
+    'CallInProgress'     : None,
+    'FarEndAudioPresent' : None,
+    'LineFault'          : None,
+    'MasterMicMute'      : None,
+    'MicAudioPresent'    : None,
+}
+
 ## RS-232
 Room = {
     'Mode' : '',
@@ -336,7 +548,7 @@ def PINValidationM(Pin_Button): #This validate the PIN Security Panel
             if len(Clean) == 4:           #If user type all numbers in the Panel
                 if Clean == Pin_M_Secret: #If User enter the secret PIN:
                     TLPM.HideAllPopups()  #Panel actions:
-                    TLPM.ShowPage('Main')
+                    TLPM.ShowPage('Main_Individual')
                     TLPM.ShowPopup('x_Welcome')
                 else:                    #If User enter incorrect PIN:
                     print('Full List')   #Notify to console
@@ -391,77 +603,82 @@ def pin_events(button, state):
 def room_master_events(button, state):
     """User Actions: Touch Room Page"""
 
-    if button is BTN['M_Room1'] and state == 'Pressed':
+    if button is BTN['M_Mode1'] and state == 'Pressed': #Individual Mode
         Room['Mode'] = 'A|B|C' ##Store in Dictionary
+        ## TouchPanel Actions
         TLP1.ShowPage('Index')
         TLP2.ShowPage('Index')
         TLP3.ShowPage('Index')
-        BTNGROUP['Room'].SetCurrent(BTN['M_Room1'])
+        TLPM.ShowPage('Main_Individual')
+        ## Activate Room Panel Indicators
+        ## Panel A
+        BTN['A_RoomA'].SetState(1)
+        BTN['A_RoomB'].SetState(0)
+        BTN['A_RoomC'].SetState(0)
+        ## Panel B
+        BTN['B_RoomA'].SetState(0)
+        BTN['B_RoomB'].SetState(1)
+        BTN['B_RoomC'].SetState(0)
+        ## Panel C
+        BTN['C_RoomA'].SetState(0)
+        BTN['C_RoomB'].SetState(0)
+        BTN['C_RoomC'].SetState(1)
         print('Touch Master: %s' % ('Room Mode A|B|C /All Close'))
 
-    elif button is BTN['M_Room2'] and state == 'Pressed':
+    elif button is BTN['M_Mode2'] and state == 'Pressed': #Executive Mode
         Room['Mode'] = 'A-B|C' ##Store in Dictionary
-        TLP1.ShowPage('Inactive')
-        TLP2.ShowPage('Inactive')
-        TLP3.ShowPage('Index')
-        BTNGROUP['Room'].SetCurrent(BTN['M_Room2'])
-        print('Touch Master: %s' % ('Room Mode A-B|C /Separed'))
-    
-    elif button is BTN['M_Room3'] and state == 'Pressed':
-        Room['Mode'] = 'A|B-C' ##Store in Dictionary
+        ## TouchPanel Actions
         TLP1.ShowPage('Index')
-        TLP2.ShowPage('Inactive')
-        TLP3.ShowPage('Inactive')
-        BTNGROUP['Room'].SetCurrent(BTN['M_Room3'])
-        print('Touch Master: %s' % ('Room Mode A|B-C /Separed'))   
-    
-    elif button is BTN['M_Room4'] and state == 'Pressed':
+        TLP2.ShowPage('Main_Full')
+        TLP3.ShowPage('Main_Full')
+        TLPM.ShowPage('Main_Full')
+        print('Touch Master: %s' % ('Room Mode A-B|C /Executive'))
+
+    elif button is BTN['M_Mode3'] and state == 'Pressed': #All Open Mode
         Room['Mode'] = 'A-B-C' ##Store in Dictionary
-        TLP1.ShowPage('Inactive')
-        TLP2.ShowPage('Inactive')
-        TLP3.ShowPage('Inactive')
-        BTNGROUP['Room'].SetCurrent(BTN['M_Room4'])
-        print('Touch Master: %s' % ('Room Mode A-B-C /All Open'))
+        ## TouchPanel Actions
+        TLP1.ShowPage('Main_Full')
+        TLP2.ShowPage('Main_Full')
+        TLP3.ShowPage('Main_Full')
+        TLPM.ShowPage('Main_Full')
+        print('Touch Master: %s' % ('Room Mode A|B-C /All Open'))
+
+    ## Mutually Exclusive
+    BTNGROUP['Room'].SetCurrent(button)
     pass
 
 ## Main ------------------------------------------------------------------------
 @event(BTNPAGE['Main'], BTNSTATE['List'])
 def page_main(button, state):
     """User Actions: Touch Main Page"""
+    
+    if button.Host.DeviceAlias == 'TouchPanelM':
+        if button is BTN['M_Config'] and state == 'Pressed':
+            LBL['M_Room'].SetText('Control de Escenarios')
+            TLPM.ShowPopup('1_Master')
+            print('Touch M: %s' % ('Config Escenario'))
 
     if button.Host.DeviceAlias == 'TouchPanelA':
         if button is BTN['A_Video'] and state == 'Pressed':
-            A_LblMaster.SetText('Control de Video')
+            LBL['A_Room'].SetText('Control de Video')
             TLP1.ShowPopup('Video')
             BTNGROUP['MainA'].SetCurrent(BTN['A_Video'])
             print('Touch A: %s' % ('Video'))
 
         elif button is BTN['A_Audio'] and state == 'Pressed':
-            A_LblMaster.SetText('Control de Audio')
+            LBL['A_Room'].SetText('Control de Audio')
             TLP1.ShowPopup('Audio')
             BTNGROUP['MainA'].SetCurrent(BTN['A_Audio'])
             print('Touch A: %s' % ('Audio'))
 
-        elif button is BTN['A_Blinds'] and state == 'Pressed':
-            A_LblMaster.SetText('Control de Persianas')
-            TLP1.ShowPopup('Persianas')
-            BTNGROUP['MainA'].SetCurrent(BTN['A_Blinds'])
-            print('Touch A: %s' % ('Persianas'))
-
         elif button is BTN['A_Lights'] and state == 'Pressed':
-            A_LblMaster.SetText('Control de Luces')
-            TLP1.ShowPopup('Luces')
+            LBL['A_Room'].SetText('Control de Luces')
+            TLP1.ShowPopup('Lights')
             BTNGROUP['MainA'].SetCurrent(BTN['A_Lights'])
             print('Touch A: %s' % ('Luces'))
 
-        elif button is BTN['A_Status'] and state == 'Pressed':
-            A_LblMaster.SetText('Información de Dispositivos')
-            TLP1.ShowPopup('Status')
-            BTNGROUP['MainA'].SetCurrent(BTN['A_Status'])
-            print('Touch A: %s' % ('Status'))
-
         elif button is BTN['A_PwrOff'] and state == 'Pressed':
-            A_LblMaster.SetText('Apagado de Sala')
+            LBL['A_Room'].SetText('Apagado de Sala')
             TLP1.ShowPopup('x_PowerOff')
             BTNGROUP['MainA'].SetCurrent(BTN['A_PwrOff'])
             print('Touch A: %s' % ('PowerOff'))
@@ -469,37 +686,25 @@ def page_main(button, state):
     elif button.Host.DeviceAlias == 'TouchPanelB':
     #--
         if button is BTN['B_Video'] and state == 'Pressed':
-            B_LblMaster.SetText('Control de Video')
+            LBL['B_Room'].SetText('Control de Video')
             TLP2.ShowPopup('Video')
             BTNGROUP['MainB'].SetCurrent(BTN['B_Video'])
             print('Touch B: %s' % ('Video'))
 
         elif button is BTN['B_Audio'] and state == 'Pressed':
-            B_LblMaster.SetText('Control de Audio')
+            LBL['B_Room'].SetText('Control de Audio')
             TLP2.ShowPopup('Audio')
             BTNGROUP['MainB'].SetCurrent(BTN['B_Audio'])
             print('Touch B: %s' % ('Audio'))
 
-        elif button is B_BtnBlinds and state == 'Pressed':
-            B_LblMaster.SetText('Control de Persianas')
-            TLP2.ShowPopup('Persianas')
-            BTNGROUP['MainB'].SetCurrent(B_BtnBlinds)
-            print('Touch B: %s' % ('Persianas'))
-
         elif button is BTN['B_Lights'] and state == 'Pressed':
-            B_LblMaster.SetText('Control de Luces')
-            TLP2.ShowPopup('Luces')
+            LBL['B_Room'].SetText('Control de Luces')
+            TLP2.ShowPopup('Lights')
             BTNGROUP['MainB'].SetCurrent(BTN['B_Lights'])
             print('Touch B: %s' % ('Luces'))
 
-        elif button is BTN['B_Status'] and state == 'Pressed':
-            B_LblMaster.SetText('Información de Dispositivos')
-            TLP2.ShowPopup('Status')
-            BTNGROUP['MainB'].SetCurrent(BTN['B_Status'])
-            print('Touch B: %s' % ('Status'))
-
         elif button is BTN['B_PwrOff'] and state == 'Pressed':
-            B_LblMaster.SetText('Apagado de Sala')
+            LBL['B_Room'].SetText('Apagado de Sala')
             TLP2.ShowPopup('x_PowerOff')
             BTNGROUP['MainB'].SetCurrent(BTN['B_PwrOff'])
             print('Touch B: %s' % ('PowerOff'))
@@ -507,275 +712,278 @@ def page_main(button, state):
     elif button.Host.DeviceAlias == 'TouchPanelC':
     #--
         if button is BTN['C_Video'] and state == 'Pressed':
-            C_LblMaster.SetText('Control de Video')
+            LBL['C_Room'].SetText('Control de Video')
             TLP3.ShowPopup('Video')
             BTNGROUP['MainC'].SetCurrent(BTN['C_Video'])
             print('Touch C: %s' % ('Video'))
 
         elif button is BTN['C_Audio'] and state == 'Pressed':
-            C_LblMaster.SetText('Control de Audio')
+            LBL['C_Room'].SetText('Control de Audio')
             TLP3.ShowPopup('Audio')
             BTNGROUP['MainC'].SetCurrent(BTN['C_Audio'])
             print('Touch C: %s' % ('Audio'))
 
-        elif button is BTN['C_Blinds'] and state == 'Pressed':
-            C_LblMaster.SetText('Control de Persianas')
-            TLP3.ShowPopup('Persianas')
-            BTNGROUP['MainC'].SetCurrent(BTN['C_Blinds'])
-            print('Touch C: %s' % ('Persianas'))
-
         elif button is BTN['C_Lights'] and state == 'Pressed':
-            C_LblMaster.SetText('Control de Luces')
-            TLP3.ShowPopup('Luces')
+            LBL['C_Room'].SetText('Control de Luces')
+            TLP3.ShowPopup('Lights')
             BTNGROUP['MainC'].SetCurrent(BTN['C_Lights'])
             print('Touch C: %s' % ('Luces'))
 
-        elif button is BTN['C_Status'] and state == 'Pressed':
-            C_LblMaster.SetText('Información de Dispositivos')
-            TLP3.ShowPopup('Status')
-            BTNGROUP['MainC'].SetCurrent(BTN['C_Status'])
-            print('Touch C: %s' % ('Status'))
-
         elif button is BTN['C_PwrOff'] and state == 'Pressed':
-            C_LblMaster.SetText('Apagado de Sala')
+            LBL['C_Room'].SetText('Apagado de Sala')
             TLP3.ShowPopup('x_PowerOff')
             BTNGROUP['MainC'].SetCurrent(BTN['C_PwrOff'])
             print('Touch C: %s' % ('PowerOff'))
     pass
 
-## Video -----------------------------------------------------------------------
-@event(BTNPAGE['Video'], BTNSTATE['List'])
-def page_video(button, state):
-    """User Actions: Touch Video Page"""
+## Main ------------------------------------------------------------------------
+@event(BTNPAGE['Main_F'], BTNSTATE['List'])
+def page_main(button, state):
+    """User Actions: Touch Main Page"""
+    
+    ## VIDEO PAGES -----------------------------
+    if button.Host.DeviceAlias == 'TouchPanelM':
+        if button is BTN['M_FVideo'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Video_Full')
+            TLP1.ShowPopup('Video_Full')
+            TLP2.ShowPopup('Video_Full')
+            TLP3.ShowPopup('Video_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FVideo'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FVideo'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FVideo'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FVideo'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Video')
+            LBL['A_RoomFull'].SetText('Control de Video')
+            LBL['B_RoomFull'].SetText('Control de Video')
+            LBL['C_RoomFull'].SetText('Control de Video')
+            ## Notify to Console
+            print('Touch M: %s' % ('Video A-B-C'))
 
-    if button.Host.DeviceAlias == 'TouchPanelA':
-        if button is BTN['A_VHDMI'] and state == 'Pressed':
-            print('Touch A: %s' % ('HDMI'))
-        elif button is BTN['A_VShare'] and state == 'Pressed':
-            print('Touch A: %s' % ('ShareLink'))
-        elif button is BTN['A_VPwrOn'] and state == 'Pressed':
-            print('Touch A: %s' % ('PowerOn'))
-        elif button is BTN['A_VPwrOff'] and state == 'Pressed':
-            print('Touch A: %s' % ('PowerOff'))
-        elif button is BTN['A_Up'] and state == 'Pressed':
-            BTNGROUP['VideoA'].SetCurrent(BTN['A_Up'])
-            print('Touch A: %s' % ('Screen Up'))
-        elif button is BTN['A_Stop'] and state == 'Pressed':
-            BTNGROUP['VideoA'].SetCurrent(BTN['A_Stop'])
-            print('Touch A: %s' % ('Screen Stop'))
-        elif button is BTN['A_Down'] and state == 'Pressed':
-            BTNGROUP['VideoA'].SetCurrent(BTN['A_Down'])
-            print('Touch A: %s' % ('Screen Down'))
-
-    elif button.Host.DeviceAlias == 'TouchPanelB':
-        if button is BTN['B_VHDMI'] and state == 'Pressed':
-            print('Touch B: %s' % ('HDMI'))
-        elif button is BTN['B_VShare'] and state == 'Pressed':
-            print('Touch B: %s' % ('ShareLink'))
-        elif button is BTN['B_VPwrOn'] and state == 'Pressed':
-            print('Touch B: %s' % ('PowerOn'))
-        elif button is BTN['B_VPwrOff'] and state == 'Pressed':
-            print('Touch B: %s' % ('PowerOff'))
-        elif button is BTN['B_Up'] and state == 'Pressed':
-            BTNGROUP['VideoB'].SetCurrent(BTN['B_Up'])
-            print('Touch B: %s' % ('Screen Up'))
-        elif button is BTN['B_Stop'] and state == 'Pressed':
-            BTNGROUP['VideoB'].SetCurrent(BTN['B_Stop'])
-            print('Touch B: %s' % ('Screen Stop'))
-        elif button is BTN['B_Down'] and state == 'Pressed':
-            BTNGROUP['VideoB'].SetCurrent(BTN['B_Down'])
-            print('Touch B: %s' % ('Screen Down'))
-
-    elif button.Host.DeviceAlias == 'TouchPanelC':
-        if button is BTN['C_VHDMI'] and state == 'Pressed':
-            print('Touch C: %s' % ('HDMI'))
-        elif button is BTN['C_VShare'] and state == 'Pressed':
-            print('Touch C: %s' % ('ShareLink'))
-        elif button is BTN['C_VPwrOn'] and state == 'Pressed':
-            print('Touch C: %s' % ('PowerOn'))
-        elif button is BTN['C_VPwrOff'] and state == 'Pressed':
-            print('Touch C: %s' % ('PowerOff'))
-        elif button is BTN['C_Up'] and state == 'Pressed':
-            BTNGROUP['VideoC'].SetCurrent(BTN['C_Up'])
-            print('Touch C: %s' % ('Screen Up'))
-        elif button is BTN['C_Stop'] and state == 'Pressed':
-            BTNGROUP['VideoC'].SetCurrent(BTN['C_Stop'])
-            print('Touch C: %s' % ('Screen Stop'))
-        elif button is BTN['C_Down'] and state == 'Pressed':
-            BTNGROUP['VideoC'].SetCurrent(BTN['C_Down'])
-            print('Touch C: %s' % ('Screen Down'))
-    pass
-
-## Audio -----------------------------------------------------------------------
-@event(BTNPAGE['Audio'], BTNSTATE['List'])
-def page_audio(button, state):
-    """User Actions: Touch Audio Page"""
-
-    if button.Host.DeviceAlias == 'TouchPanelA':
-        if button is BTN['A_VolLess'] and state == 'Pressed':
-            BTN['A_VolLess'].SetState(1)
-            print('Touch A: %s' % ('Audio -'))
-        elif button is BTN['A_VolLess'] and state == 'Repeated':
-            BTN['A_VolLess'].SetState(1)
-            print('Touch A: %s' % ('Audio -'))        
-        else:
-            BTN['A_VolLess'].SetState(0)
-        #--
-        if button is BTN['A_VolPlus'] and state == 'Pressed':
-            BTN['A_VolPlus'].SetState(1)
-            print('Touch A: %s' % ('Audio +'))
-        if button is BTN['A_VolPlus'] and state == 'Repeated':
-            BTN['A_VolPlus'].SetState(1)
-            print('Touch A: %s' % ('Audio +'))
-        else:
-            BTN['A_VolPlus'].SetState(0)
-        #--
-        if button is A_BtnMute and state == 'Pressed':
-            print('Touch A: %s' % ('Audio Mute'))
+    elif button.Host.DeviceAlias == 'TouchPanelA':
+        if button is BTN['A_FVideo'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Video_Full')
+            TLP1.ShowPopup('Video_Full')
+            TLP2.ShowPopup('Video_Full')
+            TLP3.ShowPopup('Video_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FVideo'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FVideo'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FVideo'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FVideo'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Video')
+            LBL['A_RoomFull'].SetText('Control de Video')
+            LBL['B_RoomFull'].SetText('Control de Video')
+            LBL['C_RoomFull'].SetText('Control de Video')
+            ## Notify to Console
+            print('Touch A: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelB':
-        if button is BTN['B_VolLess'] and state == 'Pressed':
-            BTN['B_VolLess'].SetState(1)
-            print('Touch B: %s' % ('Audio -'))
-        elif button is BTN['B_VolLess'] and state == 'Repeated':
-            BTN['B_VolLess'].SetState(1)
-            print('Touch B: %s' % ('Audio -'))        
-        else:
-            BTN['B_VolLess'].SetState(0)
-        #--
-        if button is BTN['B_VolPlus'] and state == 'Pressed':
-            BTN['B_VolPlus'].SetState(1)
-            print('Touch B: %s' % ('Audio +'))
-        if button is BTN['B_VolPlus'] and state == 'Repeated':
-            BTN['B_VolPlus'].SetState(1)
-            print('Touch B: %s' % ('Audio +'))
-        else:
-            BTN['B_VolPlus'].SetState(0)
-        #--
-        if button is B_BtnMute and state == 'Pressed':
-            print('Touch B: %s' % ('Audio Mute'))
+        if button is BTN['B_FVideo'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Video_Full')
+            TLP1.ShowPopup('Video_Full')
+            TLP2.ShowPopup('Video_Full')
+            TLP3.ShowPopup('Video_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FVideo'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FVideo'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FVideo'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FVideo'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Video')
+            LBL['A_RoomFull'].SetText('Control de Video')
+            LBL['B_RoomFull'].SetText('Control de Video')
+            LBL['C_RoomFull'].SetText('Control de Video')
+            ## Notify to Console
+            print('Touch B: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelC':
-        if button is BTN['C_VolLess'] and state == 'Pressed':
-            BTN['C_VolLess'].SetState(1)
-            print('Touch C: %s' % ('Audio -'))
-        elif button is BTN['C_VolLess'] and state == 'Repeated':
-            BTN['C_VolLess'].SetState(1)
-            print('Touch C: %s' % ('Audio -'))        
-        else:
-            BTN['C_VolLess'].SetState(0)
-        #--
-        if button is BTN['C_VolPlus'] and state == 'Pressed':
-            BTN['C_VolPlus'].SetState(1)
-            print('Touch C: %s' % ('Audio +'))
-        if button is BTN['C_VolPlus'] and state == 'Repeated':
-            BTN['C_VolPlus'].SetState(1)
-            print('Touch C: %s' % ('Audio +'))
-        else:
-            BTN['C_VolPlus'].SetState(0)
-        #--
-        if button is C_BtnMute and state == 'Pressed':
-            print('Touch C: %s' % ('Audio Mute'))
-    pass
+        if button is BTN['C_FVideo'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Video_Full')
+            TLP1.ShowPopup('Video_Full')
+            TLP2.ShowPopup('Video_Full')
+            TLP3.ShowPopup('Video_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FVideo'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FVideo'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FVideo'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FVideo'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Video')
+            LBL['A_RoomFull'].SetText('Control de Video')
+            LBL['B_RoomFull'].SetText('Control de Video')
+            LBL['C_RoomFull'].SetText('Control de Video')
+            ## Notify to Console
+            print('Touch C: %s' % ('Video A-B-C'))
 
-## Persianas -------------------------------------------------------------------
-@event(BTNPAGE['Blinds'], BTNSTATE['List'])
-def page_blinds(button, state):
-    """User Actions: Touch Blinds Page"""
+    ## AUDIO PAGES -----------------------------
+    if button.Host.DeviceAlias == 'TouchPanelM':
+        if button is BTN['M_FAudio'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Audio_Full')
+            TLP1.ShowPopup('Audio_Full')
+            TLP2.ShowPopup('Audio_Full')
+            TLP3.ShowPopup('Audio_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FAudio'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FAudio'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FAudio'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FAudio'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Audio')
+            LBL['A_RoomFull'].SetText('Control de Audio')
+            LBL['B_RoomFull'].SetText('Control de Audio')
+            LBL['C_RoomFull'].SetText('Control de Audio')
+            ## Notify to Console
+            print('Touch M: %s' % ('Video A-B-C'))
 
-    if button.Host.DeviceAlias == 'TouchPanelA':
-        if button is BTN['A_BUp'] and state == 'Pressed':
-            BTNGROUP['BlindsA'].SetCurrent(BTN['A_BUp'])
-            print('Touch A: %s' % ('Persianas Up'))
-        elif button is BTN['A_BStop'] and state == 'Pressed':
-            BTNGROUP['BlindsA'].SetCurrent(BTN['A_BStop'])
-            print('Touch A: %s' % ('Persianas Stop'))
-        elif button is BTN['A_BDown'] and state == 'Pressed':
-            BTNGROUP['BlindsA'].SetCurrent(BTN['A_BDown'])
-            print('Touch A: %s' % ('Persianas Down'))
+    elif button.Host.DeviceAlias == 'TouchPanelA':
+        if button is BTN['A_FAudio'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Audio_Full')
+            TLP1.ShowPopup('Audio_Full')
+            TLP2.ShowPopup('Audio_Full')
+            TLP3.ShowPopup('Audio_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FAudio'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FAudio'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FAudio'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FAudio'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Audio')
+            LBL['A_RoomFull'].SetText('Control de Audio')
+            LBL['B_RoomFull'].SetText('Control de Audio')
+            LBL['C_RoomFull'].SetText('Control de Audio')
+            ## Notify to Console
+            print('Touch A: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelB':
-        if button is BTN['B_BUp'] and state == 'Pressed':
-            BTNGROUP['BlindsB'].SetCurrent(BTN['B_BUp'])
-            print('Touch B: %s' % ('Persianas Up'))
-        elif button is BTN['B_BStop'] and state == 'Pressed':
-            BTNGROUP['BlindsB'].SetCurrent(BTN['B_BStop'])
-            print('Touch B: %s' % ('Persianas Stop'))
-        elif button is BTN['B_BDown'] and state == 'Pressed':
-            BTNGROUP['BlindsB'].SetCurrent(BTN['B_BDown'])
-            print('Touch B: %s' % ('Persianas Down'))
+        if button is BTN['B_FAudio'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Audio_Full')
+            TLP1.ShowPopup('Audio_Full')
+            TLP2.ShowPopup('Audio_Full')
+            TLP3.ShowPopup('Audio_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FAudio'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FAudio'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FAudio'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FAudio'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Audio')
+            LBL['A_RoomFull'].SetText('Control de Audio')
+            LBL['B_RoomFull'].SetText('Control de Audio')
+            LBL['C_RoomFull'].SetText('Control de Audio')
+            ## Notify to Console
+            print('Touch B: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelC':
-        if button is BTN['C_BUp'] and state == 'Pressed':
-            BTNGROUP['BlindsC'].SetCurrent(BTN['C_BUp'])
-            print('Touch C: %s' % ('Persianas Up'))
-        elif button is BTN['C_BStop'] and state == 'Pressed':
-            BTNGROUP['BlindsC'].SetCurrent(BTN['C_BStop'])
-            print('Touch C: %s' % ('Persianas Stop'))
-        elif button is BTN['C_BDown'] and state == 'Pressed':
-            BTNGROUP['BlindsC'].SetCurrent(BTN['C_BDown'])
-            print('Touch C: %s' % ('Persianas Down'))
-    pass
+        if button is BTN['C_FAudio'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Audio_Full')
+            TLP1.ShowPopup('Audio_Full')
+            TLP2.ShowPopup('Audio_Full')
+            TLP3.ShowPopup('Audio_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FAudio'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FAudio'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FAudio'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FAudio'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Audio')
+            LBL['A_RoomFull'].SetText('Control de Audio')
+            LBL['B_RoomFull'].SetText('Control de Audio')
+            LBL['C_RoomFull'].SetText('Control de Audio')
+            ## Notify to Console
+            print('Touch C: %s' % ('Video A-B-C'))
 
-## Lights ----------------------------------------------------------------------
-@event(BTNPAGE['Lights'], BTNSTATE['List'])
-def page_lights(button, state):
-    """User Actions: Touch Lights Page"""
+    ## LIGHT PAGES -----------------------------
+    if button.Host.DeviceAlias == 'TouchPanelM':
+        if button is BTN['M_FLights'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Lights_Full')
+            TLP1.ShowPopup('Lights_Full')
+            TLP2.ShowPopup('Lights_Full')
+            TLP3.ShowPopup('Lights_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FLights'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FLights'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FLights'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FLights'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Luces')
+            LBL['A_RoomFull'].SetText('Control de Luces')
+            LBL['B_RoomFull'].SetText('Control de Luces')
+            LBL['C_RoomFull'].SetText('Control de Luces')
+            ## Notify to Console
+            print('Touch M: %s' % ('Video A-B-C'))
 
-    if button.Host.DeviceAlias == 'TouchPanelA':
-        if button is BTN['A_LightOn'] and state == 'Pressed':
-            BTNGROUP['LightsA'].SetCurrent(BTN['A_LightOn'])
-            print('Touch A: %s' % ('Lights On'))
-        elif button is BTN['A_LightOf'] and state == 'Pressed':
-            BTNGROUP['LightsA'].SetCurrent(BTN['A_LightOf'])
-            print('Touch A: %s' % ('Lights Off'))
+    elif button.Host.DeviceAlias == 'TouchPanelA':
+        if button is BTN['A_FLights'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Lights_Full')
+            TLP1.ShowPopup('Lights_Full')
+            TLP2.ShowPopup('Lights_Full')
+            TLP3.ShowPopup('Lights_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FLights'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FLights'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FLights'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FLights'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Luces')
+            LBL['A_RoomFull'].SetText('Control de Luces')
+            LBL['B_RoomFull'].SetText('Control de Luces')
+            LBL['C_RoomFull'].SetText('Control de Luces')
+            ## Notify to Console
+            print('Touch A: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelB':
-        if button is BTN['B_LightOn'] and state == 'Pressed':
-            BTNGROUP['LightsB'].SetCurrent(BTN['B_LightOn'])
-            print('Touch B: %s' % ('Lights On'))
-        elif button is BTN['B_LightOf'] and state == 'Pressed':
-            BTNGROUP['LightsB'].SetCurrent(BTN['B_LightOf'])
-            print('Touch B: %s' % ('Lights Off'))
+        if button is BTN['B_FLights'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Lights_Full')
+            TLP1.ShowPopup('Lights_Full')
+            TLP2.ShowPopup('Lights_Full')
+            TLP3.ShowPopup('Lights_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FLights'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FLights'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FLights'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FLights'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Luces')
+            LBL['A_RoomFull'].SetText('Control de Luces')
+            LBL['B_RoomFull'].SetText('Control de Luces')
+            LBL['C_RoomFull'].SetText('Control de Luces')
+            ## Notify to Console
+            print('Touch B: %s' % ('Video A-B-C'))
 
     elif button.Host.DeviceAlias == 'TouchPanelC':
-        if button is BTN['C_LightOn'] and state == 'Pressed':
-            BTNGROUP['LightsC'].SetCurrent(BTN['C_LightOn'])
-            print('Touch C: %s' % ('Lights On'))
-        elif button is BTN['C_LightOf'] and state == 'Pressed':
-            BTNGROUP['LightsC'].SetCurrent(BTN['C_LightOf'])
-            print('Touch C: %s' % ('Lights Off'))
+        if button is BTN['C_FLights'] and state == 'Pressed':
+            ## Show Popup in All Panels
+            TLPM.ShowPopup('Lights_Full')
+            TLP1.ShowPopup('Lights_Full')
+            TLP2.ShowPopup('Lights_Full')
+            TLP3.ShowPopup('Lights_Full')
+            ## Mutually Exclusive on All Panels
+            BTNGROUP['MainFM'].SetCurrent(BTN['M_FLights'])
+            BTNGROUP['MainFA'].SetCurrent(BTN['A_FLights'])
+            BTNGROUP['MainFB'].SetCurrent(BTN['B_FLights'])
+            BTNGROUP['MainFC'].SetCurrent(BTN['C_FLights'])
+            ## Notify to all Panels
+            LBL['M_RoomFull'].SetText('Control de Luces')
+            LBL['A_RoomFull'].SetText('Control de Luces')
+            LBL['B_RoomFull'].SetText('Control de Luces')
+            LBL['C_RoomFull'].SetText('Control de Luces')
+            ## Notify to Console
+            print('Touch C: %s' % ('Video A-B-C'))
     pass
 
-## Status ----------------------------------------------------------------------
-## PowerOff --------------------------------------------------------------------
-@event(BTNPAGE['PowerAll'], BTNSTATE['List'])
-def page_power_all(button, state):
-    """User Actions: Touch Power Page"""
-
-    if button.Host.DeviceAlias == 'TouchPanelA':
-        if button is BTN['A_PwrAll'] and state == 'Pressed':
-            print('Touch A: %s' % ('PowerAll Pressed'))
-        elif button is BTN['A_PwrAll'] and state == 'Held':
-            TLP1.HideAllPopups()
-            TLP1.ShowPage('Index')
-            print('Touch A: %s' % ('PowerAll Ok'))
-
-    elif button.Host.DeviceAlias == 'TouchPanelB':
-        if button is BTN['B_PwrAll'] and state == 'Pressed':
-            print('Touch B: %s' % ('PowerAll Pressed'))
-        elif button is BTN['B_PwrAll'] and state == 'Held':
-            TLP2.HideAllPopups()
-            TLP2.ShowPage('Index')
-            print('Touch B: %s' % ('PowerAll Ok'))
-
-    elif button.Host.DeviceAlias == 'TouchPanelC':
-        if button is BTN['C_PwrAll'] and state == 'Pressed':
-            print('Touch C: %s' % ('PowerAll Pressed'))
-        elif button is BTN['C_PwrAll'] and state == 'Held':
-            TLP3.HideAllPopups()
-            TLP3.ShowPage('Index')
-            print('Touch C: %s' % ('PowerAll Ok'))
-    pass
 ## End Events Definitions-------------------------------------------------------
 initialize()
