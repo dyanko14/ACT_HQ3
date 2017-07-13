@@ -143,11 +143,15 @@ BTN = {
     'M_PMDown'    : Button(TLPM, 197),
     'M_PMBack'    : Button(TLPM, 198),
     ## Page Room M - Audio Full
-    'M_VolLess'   : Button(TLPM, 205, repeatTime=0.1),
-    'M_VolPlus'   : Button(TLPM, 206, repeatTime=0.1),
-    'M_MuteSpk'   : Button(TLPM, 208),
-    'M_MuteMiM'   : Button(TLPM, 209),
-    'M_MuteMiT'   : Button(TLPM, 210),
+    'M_.HDMI'     : Button(TLPM, 201),
+    'M_.Signal1'  : Button(TLPM, 202),
+    'M_.Share'    : Button(TLPM, 203),
+    'M_.Signal2'  : Button(TLPM, 204),
+    'M_.VolLess'  : Button(TLPM, 205, repeatTime=0.1),
+    'M_.VolPlus'  : Button(TLPM, 206, repeatTime=0.1),
+    'M_.MuteSpk'  : Button(TLPM, 208),
+    'M_.MuteMiM'  : Button(TLPM, 209),
+    'M_.MuteMiT'  : Button(TLPM, 210),
     ## Page Room M - Lights Full
     'M_LightA'    : Button(TLPM, 211),
     'M_LightB'    : Button(TLPM, 212),
@@ -210,7 +214,7 @@ BTN = {
     ## Page Room M - Video Executive
     'M_EProjA'  : Button(TLPM, 281),
     'M_EProjB'  : Button(TLPM, 282),
-    'M_EProjC'  : Button(TLPM, 283),
+    'M_EProjD'  : Button(TLPM, 283),
     ## Page Room M - Lights Executive
     'M_ELightA' : Button(TLPM, 291),
     'M_ELightB' : Button(TLPM, 292),
@@ -346,11 +350,15 @@ BTN = {
     'A_PMDown'    : Button(TLP1, 197),
     'A_PMBack'    : Button(TLP1, 198),
     ## Page Room A - Audio Full
-    'A_VolLess' : Button(TLP1, 205, repeatTime=0.1),
-    'A_VolPlus' : Button(TLP1, 206, repeatTime=0.1),
-    'A_MuteSpk' : Button(TLP1, 208),
-    'A_MuteMiM' : Button(TLP1, 209),
-    'A_MuteMiT' : Button(TLP1, 210),
+    'A_.HDMI'    : Button(TLP1, 201),
+    'A_.Signal1'  : Button(TLP1, 202),
+    'A_.Share'    : Button(TLP1, 203),
+    'A_.Signal2'  : Button(TLP1, 204),
+    'A_.VolLess'  : Button(TLP1, 205, repeatTime=0.1),
+    'A_.VolPlus'  : Button(TLP1, 206, repeatTime=0.1),
+    'A_.MuteSpk'  : Button(TLP1, 208),
+    'A_.MuteMiM'  : Button(TLP1, 209),
+    'A_.MuteMiT'  : Button(TLP1, 210),
     ## Page Room A - Lights Full
     'A_LightA'   : Button(TLP1, 211),
     'A_LightB'   : Button(TLP1, 212),
@@ -413,7 +421,7 @@ BTN = {
     ## Page Room A - Video Executive
     'A_EProjA'  : Button(TLP1, 281),
     'A_EProjB'  : Button(TLP1, 282),
-    'A_EProjC'  : Button(TLP1, 283),
+    'A_EProjD'  : Button(TLP1, 283),
     ## Page Room A - Lights Executive
     'A_ELightA' : Button(TLP1, 291),
     'A_ELightB' : Button(TLP1, 292),
@@ -549,11 +557,15 @@ BTN = {
     'B_PMDown'    : Button(TLP2, 197),
     'B_PMBack'    : Button(TLP2, 198),
     ## Page Room B - Audio Full
-    'B_VolLess'   : Button(TLP2, 205, repeatTime=0.1),
-    'B_VolPlus'   : Button(TLP2, 206, repeatTime=0.1),
-    'B_MuteSpk'   : Button(TLP2, 208),
-    'B_MuteMiM'   : Button(TLP2, 209),
-    'B_MuteMiT'   : Button(TLP2, 210),
+    'B_.HDMI'     : Button(TLP2, 201),
+    'B_.Signal1'  : Button(TLP2, 202),
+    'B_.Share'    : Button(TLP2, 203),
+    'B_.Signal2'  : Button(TLP2, 204),
+    'B_.VolLess'  : Button(TLP2, 205, repeatTime=0.1),
+    'B_.VolPlus'  : Button(TLP2, 206, repeatTime=0.1),
+    'B_.MuteSpk'  : Button(TLP2, 208),
+    'B_.MuteMiM'  : Button(TLP2, 209),
+    'B_.MuteMiT'  : Button(TLP2, 210),
     ## Page Room B - Lights Full
     'B_LightA'    : Button(TLP2, 211),
     'B_LightB'    : Button(TLP2, 212),
@@ -616,7 +628,7 @@ BTN = {
     ## Page Room B - Video Executive
     'B_EProjA'  : Button(TLP2, 281),
     'B_EProjB'  : Button(TLP2, 282),
-    'B_EProjC'  : Button(TLP2, 283),
+    'B_EProjD'  : Button(TLP2, 283),
     ## Page Room B - Lights Executive
     'B_ELightA' : Button(TLP2, 291),
     'B_ELightB' : Button(TLP2, 292),
@@ -753,11 +765,15 @@ BTN = {
     'C_PMDown'    : Button(TLP3, 197),
     'C_PMBack'    : Button(TLP3, 198),
     ## Page Room C - Audio Full
-    'C_VolLess' : Button(TLP3, 205, repeatTime=0.1),
-    'C_VolPlus' : Button(TLP3, 206, repeatTime=0.1),
-    'C_MuteSpk' : Button(TLP3, 208),
-    'C_MuteMiM' : Button(TLP3, 209),
-    'C_MuteMiT' : Button(TLP3, 210),
+    'C_.HDMI'     : Button(TLP3, 201),
+    'C_.Signal1'  : Button(TLP3, 202),
+    'C_.Share'    : Button(TLP3, 203),
+    'C_.Signal2'  : Button(TLP3, 204),
+    'C_.VolLess'  : Button(TLP3, 205, repeatTime=0.1),
+    'C_.VolPlus'  : Button(TLP3, 206, repeatTime=0.1),
+    'C_.MuteSpk'  : Button(TLP3, 208),
+    'C_.MuteMiM'  : Button(TLP3, 209),
+    'C_.MuteMiT'  : Button(TLP3, 210),
     ## Page Room C - Lights Full
     'C_LightA'   : Button(TLP3, 211),
     'C_LightB'   : Button(TLP3, 212),
@@ -820,7 +836,7 @@ BTN = {
     ## Page Room C - Video Executive
     'C_EProjA'  : Button(TLP3, 281),
     'C_EProjB'  : Button(TLP3, 282),
-    'C_EProjC'  : Button(TLP3, 283),
+    'C_EProjD'  : Button(TLP3, 283),
     ## Page Room C - Lights Executive
     'C_ELightA' : Button(TLP3, 291),
     'C_ELightB' : Button(TLP3, 292),
@@ -851,6 +867,68 @@ BTNPAGE = {
                BTN['M_FLights'], BTN['A_FLights'], BTN['B_FLights'], BTN['C_FLights'], 
                BTN['M_VoIP'], BTN['A_VoIP'], BTN['B_VoIP'], BTN['C_VoIP'],
                BTN['M_FPwrOff'],  BTN['A_FPwrOff'],  BTN['B_FPwrOff'],  BTN['C_FPwrOff']],
+
+    'Video' : [BTN['A_VHDMI'], BTN['A_VShare'], BTN['A_Signal1'], BTN['A_Signal2'], BTN['A_VPwrOn'], BTN['A_VPwrOff'], BTN['A_Up'], BTN['A_Stop'], BTN['A_Down'],
+               BTN['B_VHDMI'], BTN['B_VShare'], BTN['B_Signal1'], BTN['B_Signal2'], BTN['B_VPwrOn'], BTN['B_VPwrOff'], BTN['B_Up'], BTN['B_Stop'], BTN['B_Down'],
+               BTN['C_VHDMI'], BTN['C_VShare'], BTN['C_Signal1'], BTN['C_Signal2'], BTN['C_VPwrOn'], BTN['C_VPwrOff'], BTN['C_Up'], BTN['C_Stop'], BTN['C_Down']],
+
+    ## Video Executive Mode
+    'VideoE': [BTN['A_EProjA'], BTN['A_EProjB'], BTN['A_EProjD'],
+               BTN['B_EProjA'], BTN['B_EProjB'], BTN['B_EProjD'],
+               BTN['C_EProjA'], BTN['C_EProjB'], BTN['C_EProjD'],
+               BTN['M_EProjA'], BTN['M_EProjB'], BTN['M_EProjD']],
+
+    ## Video Full Mode
+    'VideoF': [BTN['A_ProjA'], BTN['A_ProjB'], BTN['A_ProjC'], BTN['A_ProjD'], BTN['A_ProjM'],
+               BTN['B_ProjA'], BTN['B_ProjB'], BTN['B_ProjC'], BTN['B_ProjD'], BTN['B_ProjM'],
+               BTN['C_ProjA'], BTN['C_ProjB'], BTN['C_ProjC'], BTN['C_ProjD'], BTN['C_ProjM'],
+               BTN['M_ProjA'], BTN['M_ProjB'], BTN['M_ProjC'], BTN['M_ProjD'], BTN['M_ProjM']],
+
+    ## Video Full A Mode
+    'VideoFA': [BTN['A_P1HDMI'], BTN['A_P1Share'], BTN['A_P1PwrOn'], BTN['A_P1PwrOff'], BTN['A_P1Up'], BTN['A_P1Stop'], BTN['A_P1Down'], BTN['A_P1Back'],
+                BTN['B_P1HDMI'], BTN['B_P1Share'], BTN['B_P1PwrOn'], BTN['B_P1PwrOff'], BTN['B_P1Up'], BTN['B_P1Stop'], BTN['B_P1Down'], BTN['B_P1Back'],
+                BTN['C_P1HDMI'], BTN['C_P1Share'], BTN['C_P1PwrOn'], BTN['C_P1PwrOff'], BTN['C_P1Up'], BTN['C_P1Stop'], BTN['C_P1Down'], BTN['C_P1Back'],
+                BTN['M_P1HDMI'], BTN['M_P1Share'], BTN['M_P1PwrOn'], BTN['M_P1PwrOff'], BTN['M_P1Up'], BTN['M_P1Stop'], BTN['M_P1Down'], BTN['M_P1Back']],
+
+    ## Video Full B Mode
+    'VideoFB': [BTN['A_P2HDMI'], BTN['A_P2Share'], BTN['A_P2PwrOn'], BTN['A_P2PwrOff'], BTN['A_P2Up'], BTN['A_P2Stop'], BTN['A_P2Down'], BTN['A_P2Back'],
+                BTN['B_P2HDMI'], BTN['B_P2Share'], BTN['B_P2PwrOn'], BTN['B_P2PwrOff'], BTN['B_P2Up'], BTN['B_P2Stop'], BTN['B_P2Down'], BTN['B_P2Back'],
+                BTN['C_P2HDMI'], BTN['C_P2Share'], BTN['C_P2PwrOn'], BTN['C_P2PwrOff'], BTN['C_P2Up'], BTN['C_P2Stop'], BTN['C_P2Down'], BTN['C_P2Back'],
+                BTN['M_P2HDMI'], BTN['M_P2Share'], BTN['M_P2PwrOn'], BTN['M_P2PwrOff'], BTN['M_P2Up'], BTN['M_P2Stop'], BTN['M_P2Down'], BTN['M_P2Back']],
+
+    ## Video Full C Mode
+    'VideoFC': [BTN['A_P3HDMI'], BTN['A_P3Share'], BTN['A_P3PwrOn'], BTN['A_P3PwrOff'], BTN['A_P3Up'], BTN['A_P3Stop'], BTN['A_P3Down'], BTN['A_P3Back'],
+                BTN['B_P3HDMI'], BTN['B_P3Share'], BTN['B_P3PwrOn'], BTN['B_P3PwrOff'], BTN['B_P3Up'], BTN['B_P3Stop'], BTN['B_P3Down'], BTN['B_P3Back'],
+                BTN['C_P3HDMI'], BTN['C_P3Share'], BTN['C_P3PwrOn'], BTN['C_P3PwrOff'], BTN['C_P3Up'], BTN['C_P3Stop'], BTN['C_P3Down'], BTN['C_P3Back'],
+                BTN['M_P3HDMI'], BTN['M_P3Share'], BTN['M_P3PwrOn'], BTN['M_P3PwrOff'], BTN['M_P3Up'], BTN['M_P3Stop'], BTN['M_P3Down'], BTN['M_P3Back']],
+
+    ## Video Full D Mode
+    'VideoFD': [BTN['A_P4HDMI'], BTN['A_P4Share'], BTN['A_P4PwrOn'], BTN['A_P4PwrOff'], BTN['A_P4Up'], BTN['A_P4Stop'], BTN['A_P4Down'], BTN['A_P4Back'],
+                BTN['B_P4HDMI'], BTN['B_P4Share'], BTN['B_P4PwrOn'], BTN['B_P4PwrOff'], BTN['B_P4Up'], BTN['B_P4Stop'], BTN['B_P4Down'], BTN['B_P4Back'],
+                BTN['C_P4HDMI'], BTN['C_P4Share'], BTN['C_P4PwrOn'], BTN['C_P4PwrOff'], BTN['C_P4Up'], BTN['C_P4Stop'], BTN['C_P4Down'], BTN['C_P4Back'],
+                BTN['M_P4HDMI'], BTN['M_P4Share'], BTN['M_P4PwrOn'], BTN['M_P4PwrOff'], BTN['M_P4Up'], BTN['M_P4Stop'], BTN['M_P4Down'], BTN['M_P4Back']],
+
+    ## Video Full Global Mode
+    'VideoFG': [BTN['A_PMHDMI'], BTN['A_PMShare'], BTN['A_PMUp'], BTN['A_PMStop'], BTN['A_PMDown'], BTN['A_PMBack'],
+                BTN['B_PMHDMI'], BTN['B_PMShare'], BTN['B_PMUp'], BTN['B_PMStop'], BTN['B_PMDown'], BTN['B_PMBack'],
+                BTN['C_PMHDMI'], BTN['C_PMShare'], BTN['C_PMUp'], BTN['C_PMStop'], BTN['C_PMDown'], BTN['C_PMBack'],
+                BTN['M_PMHDMI'], BTN['M_PMShare'], BTN['M_PMUp'], BTN['M_PMStop'], BTN['M_PMDown'], BTN['M_PMBack']],
+
+    'Audio' : [BTN['A_VolLess'], BTN['A_VolPlus'], BTN['A_Mute'],
+               BTN['B_VolLess'], BTN['B_VolPlus'], BTN['B_Mute'],
+               BTN['C_VolLess'], BTN['C_VolPlus'], BTN['C_Mute']],
+    
+    ## Audio Full Global Mode
+    'AudioF' : [BTN['A_.HDMI'], BTN['A_.Share'], BTN['A_.VolLess'], BTN['A_.VolPlus'], BTN['A_.MuteSpk'], BTN['A_.MuteMiM'], BTN['A_.MuteMiT'],
+                BTN['B_.HDMI'], BTN['B_.Share'], BTN['B_.VolLess'], BTN['B_.VolPlus'], BTN['B_.MuteSpk'], BTN['B_.MuteMiM'], BTN['B_.MuteMiT'],
+                BTN['C_.HDMI'], BTN['C_.Share'], BTN['C_.VolLess'], BTN['C_.VolPlus'], BTN['C_.MuteSpk'], BTN['C_.MuteMiM'], BTN['C_.MuteMiT'],
+                BTN['M_.HDMI'], BTN['M_.Share'], BTN['M_.VolLess'], BTN['M_.VolPlus'], BTN['M_.MuteSpk'], BTN['M_.MuteMiM'], BTN['M_.MuteMiT']],
+
+    'Lights': [BTN['A_Light1'], BTN['A_Light2'], BTN['A_Light3'], BTN['A_Light4'], BTN['A_BUp'], BTN['A_BStop'], BTN['A_BDown'],
+               BTN['B_Light1'], BTN['B_Light2'], BTN['B_Light3'], BTN['B_Light4'], BTN['B_BUp'], BTN['B_BStop'], BTN['B_BDown'],
+               BTN['C_Light1'], BTN['C_Light2'], BTN['C_Light3'], BTN['C_Light4'], BTN['C_BUp'], BTN['C_BStop'], BTN['C_BDown']],
+    
+    'Power' : [BTN['A_PwrAll'], BTN['B_PwrAll'], BTN['C_PwrAll']],
 }
 
 # UI Group Page Buttons
@@ -861,10 +939,10 @@ BTNGROUP = {
     'MainB'    : MESet([BTN['B_Video'], BTN['B_Audio'], BTN['B_Lights'], BTN['B_PwrOff']]),
     'MainC'    : MESet([BTN['C_Video'], BTN['C_Audio'], BTN['C_Lights'], BTN['C_PwrOff']]),
 
-    'MainFA'   : MESet([BTN['A_FVideo'], BTN['A_FAudio'], BTN['A_FLights'], BTN['A_FPwrOff']]),
-    'MainFB'   : MESet([BTN['B_FVideo'], BTN['B_FAudio'], BTN['B_FLights'], BTN['B_FPwrOff']]),
-    'MainFC'   : MESet([BTN['C_FVideo'], BTN['C_FAudio'], BTN['C_FLights'], BTN['C_FPwrOff']]),
-    'MainFM'   : MESet([BTN['M_FVideo'], BTN['M_FAudio'], BTN['M_FLights'], BTN['M_FPwrOff']]),
+    'MainFA'   : MESet([BTN['A_FVideo'], BTN['A_FAudio'], BTN['A_FLights'], BTN['A_VoIP'], BTN['A_FPwrOff']]),
+    'MainFB'   : MESet([BTN['B_FVideo'], BTN['B_FAudio'], BTN['B_FLights'], BTN['B_VoIP'], BTN['B_FPwrOff']]),
+    'MainFC'   : MESet([BTN['C_FVideo'], BTN['C_FAudio'], BTN['C_FLights'], BTN['C_VoIP'], BTN['C_FPwrOff']]),
+    'MainFM'   : MESet([BTN['M_FVideo'], BTN['M_FAudio'], BTN['M_FLights'], BTN['M_VoIP'], BTN['M_FPwrOff']]),
 }
 
 # UI Button states
