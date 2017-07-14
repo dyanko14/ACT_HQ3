@@ -94,6 +94,21 @@ def initialize():
     Pin_C_GUI = []
     Pin_C_Secret = '3333'
 
+    ## User Interfaces & Labels Array
+    global Panels, Touch, Labels, Labels2, TxtBox
+    Panels  = [TLP1, TLP2, TLP3, TLPM]
+    Labels  = [LBL['A_RoomFull'], LBL['B_RoomFull'], LBL['C_RoomFull'], LBL['M_RoomFull']]
+    Labels2 = [LBL['A_Dial'], LBL['B_Dial'], LBL['C_Dial'], LBL['M_Dial']]
+
+    ## VoIP Dial PAGE
+    global dialerVI           ## To access the Dial String variable in all program
+    dialerVI = ''             ## Clean the Dial String Variable
+    VOIP_DATA['Dial'] = ''    ## Clean the Dial Data in Dictionary
+    LBL['A_Dial'].SetText('') ## Clean the Dial Data in gui
+    LBL['B_Dial'].SetText('') ## Clean the Dial Data in gui
+    LBL['C_Dial'].SetText('') ## Clean the Dial Data in gui
+    LBL['M_Dial'].SetText('') ## Clean the Dial Data in gui
+
     ## TOUCH PANEL FUNCTIONS
     ## TouchPanel Master
     LBL['M_Index'].SetText('Panel Master')
@@ -342,6 +357,11 @@ DEVIO3_DATA = {
     'LineFault'          : None,
     'MasterMicMute'      : None,
     'MicAudioPresent'    : None,
+}
+
+VOIP_DATA = {
+    'Dial' : '',
+    'DTMF' : False
 }
 
 ## RS-232
@@ -818,10 +838,6 @@ def page_main(button, state):
 @event(BTNPAGE['Main_F'], BTNSTATE['List'])
 def page_main_full(button, state):
     """User Actions: Touch Main Page"""
-    global Panels, Touch, Labels, TxtBox
-    Panels = [TLP1, TLP2, TLP3, TLPM]
-    Labels = [LBL['A_RoomFull'], LBL['B_RoomFull'], LBL['C_RoomFull'], LBL['M_RoomFull']]
-
     ## VIDEO PAGES -----------------------------
     if state == 'Pressed':
         if button.ID == 111: #VIDEO BUTTON IN EACH PANEL
@@ -1330,55 +1346,175 @@ def page_main_video_global(button, state):
 def page_main_audio_full(button, state):
     """User Actions: Touch Main Full Audio Page"""
 
-    if button is BTN['A_.HDMI'] or button is BTN['B_.HDMI'] or button is BTN['C_.HDMI'] or button is BTN['M_.HDMI']:
+    if button.ID == 201: ##HDMI
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('HDMI Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('HDMI Modo Abierto'))
 
-    elif button is BTN['A_.Share'] or button is BTN['B_.Share'] or button is BTN['C_.Share'] or button is BTN['M_.Share']:
+    elif button.ID == 203: ##ClickShare
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('ShareLink Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('ShareLink Modo Abierto'))
 
-    elif button is BTN['A_.VolLess'] or button is BTN['B_.VolLess'] or button is BTN['C_.VolLess'] or button is BTN['M_.VolLess']:
+    elif button.ID == 205: ##Vol-
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('Vol- Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('Vol- Modo Abierto'))
-    
-    elif button is BTN['A_.VolPlus'] or button is BTN['B_.VolPlus'] or button is BTN['C_.VolPlus'] or button is BTN['M_.VolPlus']:
+
+    elif button.ID == 206: ##Vol+
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('Vol+ Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('Vol+ Modo Abierto'))
 
-    elif button is BTN['A_.MuteSpk'] or button is BTN['B_.MuteSpk'] or button is BTN['C_.MuteSpk'] or button is BTN['M_.MuteSpk']:
+    elif button.ID == 208: ##Mute Spk
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('Mute Spk Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('Mute Spk Modo Abierto'))
 
-    elif button is BTN['A_.MuteMiM'] or button is BTN['B_.MuteMiM'] or button is BTN['C_.MuteMiM'] or button is BTN['M_.MuteMiM']:
+    elif button.ID == 209: ##Mute Hand Mic
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('Mute Mic Mano Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('Mute Mic Mano Modo Abierto'))
 
-    elif button is BTN['A_.MuteMiT'] or button is BTN['B_.MuteMiT'] or button is BTN['C_.MuteMiT'] or button is BTN['M_.MuteMiT']:
+    elif button.ID == 210: ##Mute Cielling Mic
         if state == 'Pressed':
             if Room['Mode'] == 'Executive':
                 print('Touch: %s' % ('Mute Mic Techo Modo Ejecutivo'))
             elif Room['Mode'] == 'Open':
                 print('Touch: %s' % ('Mute Mic Techo Modo Abierto'))
     pass
+
+## Lights Executive -------------------------------------------------------------
+@event(BTNPAGE['LightsE'], BTNSTATE['List'])
+def page_lights_executive(button, state):
+    """User Actions: Touch Main Full Lights Page"""
+    if state == 'Pressed':
+        if button.ID == 291: ##Lights Room A
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullA')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Sala A')
+            print('Touch: %s' % ('Lights Room A Modo Ejecutivo'))
+
+        elif button.ID == 292: ##Lights Room B
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullB')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Sala B')
+            print('Touch: %s' % ('Lights Room B Modo Ejecutivo'))
+    pass
+
+## Lights Full ------------------------------------------------------------
+@event(BTNPAGE['LightsF'], BTNSTATE['List'])
+def page_lights_executive(button, state):
+    """User Actions: Touch Main Full Lights Page"""
+
+    if state == 'Pressed':
+        if button.ID == 211: ##Lights Room A
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullA')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Sala A')
+            print('Touch: %s' % ('Lights Room A Modo Abierto'))
+
+        elif button.ID == 212: ##Lights Room B
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullB')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Sala B')
+            print('Touch: %s' % ('Lights Room B Modo Abierto'))
+
+        elif button.ID == 213: ##Lights Room C
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullC')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Sala C')
+            print('Touch: %s' % ('Lights Room C Modo Abierto'))
+
+        elif button.ID == 214: ##Lights Room D
+            for Touch in Panels:
+                Touch.ShowPopup('Lights_FullM')
+            for TxtBox in Labels:
+                TxtBox.SetText('Control de Luces Global')
+            print('Touch: %s' % ('Lights Room M Modo Abierto'))
+    pass
+
+## Lights Full ------------------------------------------------------------
+@event(BTNPAGE['LightsF'], BTNSTATE['List'])
+def page_lights_executive(button, state):
+    """User Actions: Touch Main Full VoIP Page"""
+
+
+    pass
+
+## PAGE VoIP -------------------------------------------------------------------
+@event(BTNPAGE['TelCall'], BTNSTATE['List'])
+def vi_call_events(button, state):
+    """User Actions: Touch VoIP Page"""
+    if state == 'Pressed':
+        if button.ID == 276: ## Call
+        ##--This button dial the number typed on the touch panel (Biamp VoIP)
+        #BIAMP.Set('VoIPHook', 'Dial',
+        #          {'Instance Tag':'Dialer', 'Line':'1', 'Call Appearance':'1', \
+        #            'Number':VOIP_DATA['Dial']})
+            print('Touch: %s' % ('VoIP Call'))
+
+        elif button.ID == 277: ## Hangup
+        ##--This button hangs up all active calls (Biamp VoIP)
+        #BIAMP.Set('VoIPHook', 'End',
+        #          {'Instance Tag':'Dialer', 'Line':'1', 'Call Appearance':'1'})
+            print('Touch: %s' % ('VoIP Hangup'))
+    pass
+
+## This function is called when the user press a Dial Button
+## This function add or remove data from the panel Dial Number
+def DialerVoIP(btn_name):
+    """Type the Dial VoIP numbers in Touch Labels"""
+    print(btn_name)
+    global dialerVI
+
+    if btn_name == 'Delete':         #If the user push 'Delete' button
+        dialerVI = dialerVI[:-1]     #Remove the last char of the string
+        VOIP_DATA['Dial'] = dialerVI #Asign the string to the data dictionary
+        for TxtBox in Labels2:
+            TxtBox.SetText(dialerVI) #Send the string to GUI Label
+
+    else:                                #If the user push a [*#0-9] button
+        number = str(btn_name[4])        #Extract the valid character of BTN name
+        if VOIP_DATA['DTMF'] == False:   #If the DTMF is off
+            dialerVI += number           #Append the last char to the string
+            VOIP_DATA['Dial'] = dialerVI #Asign the string to the data dictionary
+            for TxtBox in Labels2:
+                TxtBox.SetText(dialerVI) #Send the string to GUI Label
+        elif VOIP_DATA['DTMF'] == True:  #If DTMF is On
+            #BIAMP.Set('DTMF', number, {'Instance Tag':'Dialer', 'Line':'1'})
+            print('XD')
+    pass
+
+@event(BTNPAGE['TelDial'], BTNSTATE['List'])
+def vi_dial_events(button, state):
+    """User Actions: Touch VoIP Page"""
+    ## All the VoIP Dial Buttons pressed come in button variable
+    if state == 'Pressed' or state == 'Repeated':
+        print('Touch: VoIP %s' % (button.Name))
+        DialerVoIP(button.Name) #Recall a validation function
+        button.SetState(1)
+    else:
+        button.SetState(0)
+    pass
+
 
 ## End Events Definitions-------------------------------------------------------
 initialize()
